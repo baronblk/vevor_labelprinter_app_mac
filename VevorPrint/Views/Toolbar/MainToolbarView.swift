@@ -13,9 +13,10 @@ struct MainToolbarView: ToolbarContent {
     @Environment(LabelViewModel.self)   private var labelVM
     @Environment(PrinterViewModel.self) private var printerVM
 
-    // MARK: - State
+    // MARK: - Bindings
 
     @Binding var showPreview: Bool
+    @Binding var showTemplates: Bool
 
     // MARK: - Toolbar Content
 
@@ -51,21 +52,51 @@ struct MainToolbarView: ToolbarContent {
             .help("Druckvorschau (⇧⌘P)")
         }
 
-        // Export
+        // Templates & Export
         ToolbarItemGroup(placement: .secondaryAction) {
+            Button {
+                showTemplates = true
+            } label: {
+                Label("Vorlagen", systemImage: "square.stack.3d.up")
+            }
+            .help("Vorlagenbibliothek (⌘T)")
+            .keyboardShortcut("t", modifiers: .command)
+
             Menu {
                 Button("Als PNG exportieren…") {
-                    // Phase 6
+                    ExportService.exportPNG(
+                        elements: labelVM.sortedElements,
+                        labelSize: labelVM.labelSize
+                    )
                 }
                 .keyboardShortcut("e", modifiers: .command)
 
                 Button("Als PDF exportieren…") {
-                    // Phase 6
+                    ExportService.exportPDF(
+                        elements: labelVM.sortedElements,
+                        labelSize: labelVM.labelSize
+                    )
                 }
                 .keyboardShortcut("e", modifiers: [.command, .shift])
+
+                Divider()
+
+                Button("Design exportieren (JSON)…") {
+                    ExportService.exportJSON(
+                        elements: labelVM.sortedElements,
+                        labelSize: labelVM.labelSize
+                    )
+                }
+
+                Button("Design importieren (JSON)…") {
+                    if let result = ExportService.importJSON() {
+                        labelVM.loadTemplate(fromElements: result.elements, labelSize: result.labelSize)
+                    }
+                }
             } label: {
                 Label("Exportieren", systemImage: "square.and.arrow.up")
             }
+            .help("Exportieren / Importieren")
         }
 
         // Zoom

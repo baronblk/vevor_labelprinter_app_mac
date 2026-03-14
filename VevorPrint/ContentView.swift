@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var columnVisibility  = NavigationSplitViewVisibility.all
     @State private var showOnboarding    = false
     @State private var showPreview       = false
+    @State private var showTemplates     = false
 
     // MARK: - Body
 
@@ -36,7 +37,7 @@ struct ContentView: View {
         }
         .navigationTitle("VevorPrint")
         .toolbar {
-            MainToolbarView(showPreview: $showPreview)
+            MainToolbarView(showPreview: $showPreview, showTemplates: $showTemplates)
         }
         .sheet(isPresented: $showOnboarding) {
             OnboardingView()
@@ -45,6 +46,9 @@ struct ContentView: View {
         }
         .sheet(isPresented: $showPreview) {
             PrintPreviewPanel()
+        }
+        .sheet(isPresented: $showTemplates) {
+            TemplateBrowserPanel()
         }
         .onAppear {
             if !appSettings.onboardingCompleted {

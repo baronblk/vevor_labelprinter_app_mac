@@ -7,6 +7,7 @@ import Foundation
 import Observation
 import AppKit
 import CoreGraphics
+import SwiftData
 
 // MARK: - LabelViewModel
 
@@ -291,6 +292,57 @@ final class LabelViewModel {
     /// - Parameter data: Previously encoded elements Data.
     func loadElements(from data: Data) {
         elements = (try? JSONDecoder().decode([AnyLabelElement].self, from: data)) ?? []
+    }
+
+    // MARK: - Template Persistence
+
+    /// Save the current canvas as a named SwiftData template.
+    ///
+    /// - Parameters:
+    ///   - name: Template display name.
+    ///   - modelContext: The active SwiftData model context.
+    func saveAsTemplate(name: String, modelContext: ModelContext) {
+        let doc = LabelDocument(
+            name: name,
+            widthMM: labelSize.widthMM,
+            heightMM: labelSize.heightMM,
+            elementsData: encodeElements()
+        )
+        // Generate thumbnail PNG
+        if let thumb = LabelRenderer.thumbnail(elements: sortedElements, labelSize: labelSize) {
+            let rep = NSBitmapImageRep(cgImage: thumb)
+            doc.thumbnailData = rep.representation(using: .png, properties: [:])
+        }
+        modelContext.insert(doc)
+        try? modelContext.save()
+    }
+
+    /// Load a saved template into the canvas, replacing current content.
+    ///
+    /// - Parameter doc: The `LabelDocument` to restore.
+    func loadTemplate(_ doc: LabelDocument) {
+        loadTemplate(
+            fromElements: (try? JSONDecoder().decode([AnyLabelElement].self, from: doc.elementsData)) ?? [],
+            labelSize: LabelSize(name: doc.name, widthMM: doc.widthMM, heightMM: doc.heightMM)
+        )
+    }
+
+    /// Load elements and size directly (e.g. from JSON import).
+    ///
+    /// - Parameters:
+    ///   - fromElements: Decoded elements array.
+    ///   - labelSize: The associated label size.
+    func loadTemplate(fromElements newElements: [AnyLabelElement], labelSize newSize: LabelSize) {
+        let snapshot = elements
+        let oldSize  = labelSize
+        registerUndo(actionName: "Template laden") {
+            self.elements    = snapshot
+            self.labelSize   = oldSize
+            self.selectedIDs = []
+        }
+        labelSize    = newSize
+        elements     = newElements
+        selectedIDs  = []
     }
 }
 
