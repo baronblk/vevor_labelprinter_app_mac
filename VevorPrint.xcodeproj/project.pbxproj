@@ -1,0 +1,612 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		018A5BCAA63934F944617E95 /* View+ConditionalModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D94D64CFFF2B9ADE2EDCB1 /* View+ConditionalModifier.swift */; };
+		128855FD93C185D7F6BD06DF /* UnitConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */; };
+		18C19A5DFC1E84ABF92644E7 /* AppMenuCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E011EB7FB502B954ACB3CD /* AppMenuCommands.swift */; };
+		21998C8074C22BFF07C5FF4C /* LabelDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E70D50B2216BED9A5FD69 /* LabelDocument.swift */; };
+		2700E8B49F6E333BEBB2988B /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90A114185CD145DB85234FF /* Color+Hex.swift */; };
+		312938CD0ACC260590C9ABA9 /* VevorPrintApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FB221285C8E51FB634238C /* VevorPrintApp.swift */; };
+		3E21222D61CAE3959FE689B8 /* PrinterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FDE5F02F99D93B5667C17D /* PrinterViewModel.swift */; };
+		4996826517EB215B56F73549 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A984A027B240F940683481BE /* Assets.xcassets */; };
+		49FECFEC4299CFB20C85DDD8 /* LabelCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A8C3FEC5EB326D19C8789F /* LabelCanvasView.swift */; };
+		62EF341240C0A00308425109 /* UnitConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76452BA53BD7884BEC2DBC84 /* UnitConversionTests.swift */; };
+		807C9D1B893F5F63B22DB442 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79AB495DD139C77CE7B5CA5 /* OnboardingView.swift */; };
+		A3F5FF1A37B2FB8C939FB5DB /* PropertiesSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B367102C013669D40CBC1FD /* PropertiesSidebarView.swift */; };
+		A5F845F5D9033B34DA915D0B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691941A389BEE32453FB63C6 /* AppSettings.swift */; };
+		A9AAD366ECC8C11821ED14D7 /* MainToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABA8F874E5678EC7805378 /* MainToolbarView.swift */; };
+		AD8690F3384BE1C90C85CC3E /* LabelSize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 510997AA778F440E7816FFE3 /* LabelSize.swift */; };
+		B9CEBADD7C4D3F48B8414596 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9053D0A579868606AF387E1F /* ContentView.swift */; };
+		DAB752A0F9C81215964F4F7E /* ToolboxSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A228FA8E61B47DED4B532541 /* ToolboxSidebarView.swift */; };
+		DDC1209B69D7830DF547C967 /* LabelSizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E34D4DD27AA0BA261E8F74A /* LabelSizePickerView.swift */; };
+		DE3A9513A1C578EC99912C8E /* BluetoothStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EED2734882871B87599AAE5 /* BluetoothStatusView.swift */; };
+		F63DF48E1C348368F5534F08 /* LabelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76DFAEBAD170B4378AC72F3 /* LabelViewModel.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		3BDDE83A12EDE6AB94CD5936 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CFE4DA4377C735EC5A681257 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 769C5C5F06F88B085A98BD0F;
+			remoteInfo = VevorPrint;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		090AEC5361B0445462A09E62 /* VevorPrintTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VevorPrintTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1DABA8F874E5678EC7805378 /* MainToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolbarView.swift; sourceTree = "<group>"; };
+		1EA453B927ED784E46356B0C /* VevorPrint.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VevorPrint.entitlements; sourceTree = "<group>"; };
+		20D94D64CFFF2B9ADE2EDCB1 /* View+ConditionalModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConditionalModifier.swift"; sourceTree = "<group>"; };
+		50A8C3FEC5EB326D19C8789F /* LabelCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCanvasView.swift; sourceTree = "<group>"; };
+		510997AA778F440E7816FFE3 /* LabelSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSize.swift; sourceTree = "<group>"; };
+		55FDE5F02F99D93B5667C17D /* PrinterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterViewModel.swift; sourceTree = "<group>"; };
+		5B367102C013669D40CBC1FD /* PropertiesSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesSidebarView.swift; sourceTree = "<group>"; };
+		691941A389BEE32453FB63C6 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		6EED2734882871B87599AAE5 /* BluetoothStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatusView.swift; sourceTree = "<group>"; };
+		74E011EB7FB502B954ACB3CD /* AppMenuCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenuCommands.swift; sourceTree = "<group>"; };
+		76452BA53BD7884BEC2DBC84 /* UnitConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConversionTests.swift; sourceTree = "<group>"; };
+		7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConversion.swift; sourceTree = "<group>"; };
+		7E34D4DD27AA0BA261E8F74A /* LabelSizePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSizePickerView.swift; sourceTree = "<group>"; };
+		9053D0A579868606AF387E1F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		90FB221285C8E51FB634238C /* VevorPrintApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VevorPrintApp.swift; sourceTree = "<group>"; };
+		9E8E70D50B2216BED9A5FD69 /* LabelDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelDocument.swift; sourceTree = "<group>"; };
+		A228FA8E61B47DED4B532541 /* ToolboxSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolboxSidebarView.swift; sourceTree = "<group>"; };
+		A90A114185CD145DB85234FF /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		A984A027B240F940683481BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		B79AB495DD139C77CE7B5CA5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		C5154FE2949F191EF5480E98 /* VevorPrint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VevorPrint.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC5578B39C3D12C824A916A1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		D76DFAEBAD170B4378AC72F3 /* LabelViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelViewModel.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		10E5A3009CC21E656CB821F0 /* Toolbar */ = {
+			isa = PBXGroup;
+			children = (
+				1DABA8F874E5678EC7805378 /* MainToolbarView.swift */,
+			);
+			path = Toolbar;
+			sourceTree = "<group>";
+		};
+		23671BF6F518427A086C9C3A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				74E011EB7FB502B954ACB3CD /* AppMenuCommands.swift */,
+				E697F763172FB619C4F305AF /* Canvas */,
+				30127FA5C958310E98B17089 /* Panels */,
+				5B27AEAB9739A3E63F4F1AC2 /* Printer */,
+				752FC370FDE9B47B28AF27EA /* Sidebar */,
+				10E5A3009CC21E656CB821F0 /* Toolbar */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		2AAE3268E89486F5725F0CDE /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CF87ED0328E3F7FBD3BFBC4E /* Bluetooth */,
+				A9DF3694E60C61017FAFC2C8 /* Import */,
+				8CE6C520AA8DB9E325A38FDE /* Printing */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		30127FA5C958310E98B17089 /* Panels */ = {
+			isa = PBXGroup;
+			children = (
+				B79AB495DD139C77CE7B5CA5 /* OnboardingView.swift */,
+			);
+			path = Panels;
+			sourceTree = "<group>";
+		};
+		417EDBFD76D7CE97CCF92919 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				A984A027B240F940683481BE /* Assets.xcassets */,
+				CC5578B39C3D12C824A916A1 /* Info.plist */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		4AA0DA4B2C05FD9952A1E972 = {
+			isa = PBXGroup;
+			children = (
+				67C9ECCBA9B252B2A5887A83 /* VevorPrint */,
+				BE8C3B57AE6D0E0CE2A9098F /* VevorPrintTests */,
+				D7B7F0D68A6866B508A6FC60 /* Products */,
+			);
+			indentWidth = 4;
+			sourceTree = "<group>";
+			tabWidth = 4;
+		};
+		5B27AEAB9739A3E63F4F1AC2 /* Printer */ = {
+			isa = PBXGroup;
+			children = (
+				6EED2734882871B87599AAE5 /* BluetoothStatusView.swift */,
+			);
+			path = Printer;
+			sourceTree = "<group>";
+		};
+		65A56594434B4155CC531CFE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A90A114185CD145DB85234FF /* Color+Hex.swift */,
+				20D94D64CFFF2B9ADE2EDCB1 /* View+ConditionalModifier.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		65DC4700E07403E7769075D0 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				691941A389BEE32453FB63C6 /* AppSettings.swift */,
+				D76DFAEBAD170B4378AC72F3 /* LabelViewModel.swift */,
+				55FDE5F02F99D93B5667C17D /* PrinterViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		67C9ECCBA9B252B2A5887A83 /* VevorPrint */ = {
+			isa = PBXGroup;
+			children = (
+				9053D0A579868606AF387E1F /* ContentView.swift */,
+				1EA453B927ED784E46356B0C /* VevorPrint.entitlements */,
+				90FB221285C8E51FB634238C /* VevorPrintApp.swift */,
+				FE0D8F1A0BD128BE493BCD28 /* Models */,
+				417EDBFD76D7CE97CCF92919 /* Resources */,
+				2AAE3268E89486F5725F0CDE /* Services */,
+				772C76282A4A9617F463B2D7 /* Utilities */,
+				65DC4700E07403E7769075D0 /* ViewModels */,
+				23671BF6F518427A086C9C3A /* Views */,
+			);
+			path = VevorPrint;
+			sourceTree = "<group>";
+		};
+		752FC370FDE9B47B28AF27EA /* Sidebar */ = {
+			isa = PBXGroup;
+			children = (
+				7E34D4DD27AA0BA261E8F74A /* LabelSizePickerView.swift */,
+				5B367102C013669D40CBC1FD /* PropertiesSidebarView.swift */,
+				A228FA8E61B47DED4B532541 /* ToolboxSidebarView.swift */,
+			);
+			path = Sidebar;
+			sourceTree = "<group>";
+		};
+		772C76282A4A9617F463B2D7 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */,
+				65A56594434B4155CC531CFE /* Extensions */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		8CE6C520AA8DB9E325A38FDE /* Printing */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Printing;
+			sourceTree = "<group>";
+		};
+		A9DF3694E60C61017FAFC2C8 /* Import */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Import;
+			sourceTree = "<group>";
+		};
+		BE8C3B57AE6D0E0CE2A9098F /* VevorPrintTests */ = {
+			isa = PBXGroup;
+			children = (
+				76452BA53BD7884BEC2DBC84 /* UnitConversionTests.swift */,
+			);
+			path = VevorPrintTests;
+			sourceTree = "<group>";
+		};
+		CF87ED0328E3F7FBD3BFBC4E /* Bluetooth */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Bluetooth;
+			sourceTree = "<group>";
+		};
+		D7B7F0D68A6866B508A6FC60 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C5154FE2949F191EF5480E98 /* VevorPrint.app */,
+				090AEC5361B0445462A09E62 /* VevorPrintTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		E697F763172FB619C4F305AF /* Canvas */ = {
+			isa = PBXGroup;
+			children = (
+				50A8C3FEC5EB326D19C8789F /* LabelCanvasView.swift */,
+			);
+			path = Canvas;
+			sourceTree = "<group>";
+		};
+		FE0D8F1A0BD128BE493BCD28 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9E8E70D50B2216BED9A5FD69 /* LabelDocument.swift */,
+				510997AA778F440E7816FFE3 /* LabelSize.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		09C9D2B216E0A044C0AC90A9 /* VevorPrintTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0EEC77BE01837FC8F3E1554F /* Build configuration list for PBXNativeTarget "VevorPrintTests" */;
+			buildPhases = (
+				DE72D5DE1BE3EDEA180BBA75 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				7F312668DACEA1BCCA21D45B /* PBXTargetDependency */,
+			);
+			name = VevorPrintTests;
+			packageProductDependencies = (
+			);
+			productName = VevorPrintTests;
+			productReference = 090AEC5361B0445462A09E62 /* VevorPrintTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		769C5C5F06F88B085A98BD0F /* VevorPrint */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 33959B7D15AF12A775EBA8C1 /* Build configuration list for PBXNativeTarget "VevorPrint" */;
+			buildPhases = (
+				55C6BD8822313A960ACD6D31 /* Sources */,
+				15ECD20A87E987DEBDFE332B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VevorPrint;
+			packageProductDependencies = (
+			);
+			productName = VevorPrint;
+			productReference = C5154FE2949F191EF5480E98 /* VevorPrint.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CFE4DA4377C735EC5A681257 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					09C9D2B216E0A044C0AC90A9 = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+					769C5C5F06F88B085A98BD0F = {
+						DevelopmentTeam = "";
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 25321C7EEA5C5498A798BC4E /* Build configuration list for PBXProject "VevorPrint" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 4AA0DA4B2C05FD9952A1E972;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = D7B7F0D68A6866B508A6FC60 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				769C5C5F06F88B085A98BD0F /* VevorPrint */,
+				09C9D2B216E0A044C0AC90A9 /* VevorPrintTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		15ECD20A87E987DEBDFE332B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4996826517EB215B56F73549 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		55C6BD8822313A960ACD6D31 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				18C19A5DFC1E84ABF92644E7 /* AppMenuCommands.swift in Sources */,
+				A5F845F5D9033B34DA915D0B /* AppSettings.swift in Sources */,
+				DE3A9513A1C578EC99912C8E /* BluetoothStatusView.swift in Sources */,
+				2700E8B49F6E333BEBB2988B /* Color+Hex.swift in Sources */,
+				B9CEBADD7C4D3F48B8414596 /* ContentView.swift in Sources */,
+				49FECFEC4299CFB20C85DDD8 /* LabelCanvasView.swift in Sources */,
+				21998C8074C22BFF07C5FF4C /* LabelDocument.swift in Sources */,
+				AD8690F3384BE1C90C85CC3E /* LabelSize.swift in Sources */,
+				DDC1209B69D7830DF547C967 /* LabelSizePickerView.swift in Sources */,
+				F63DF48E1C348368F5534F08 /* LabelViewModel.swift in Sources */,
+				A9AAD366ECC8C11821ED14D7 /* MainToolbarView.swift in Sources */,
+				807C9D1B893F5F63B22DB442 /* OnboardingView.swift in Sources */,
+				3E21222D61CAE3959FE689B8 /* PrinterViewModel.swift in Sources */,
+				A3F5FF1A37B2FB8C939FB5DB /* PropertiesSidebarView.swift in Sources */,
+				DAB752A0F9C81215964F4F7E /* ToolboxSidebarView.swift in Sources */,
+				128855FD93C185D7F6BD06DF /* UnitConversion.swift in Sources */,
+				312938CD0ACC260590C9ABA9 /* VevorPrintApp.swift in Sources */,
+				018A5BCAA63934F944617E95 /* View+ConditionalModifier.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DE72D5DE1BE3EDEA180BBA75 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				62EF341240C0A00308425109 /* UnitConversionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		7F312668DACEA1BCCA21D45B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 769C5C5F06F88B085A98BD0F /* VevorPrint */;
+			targetProxy = 3BDDE83A12EDE6AB94CD5936 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		01253CB5BF06770C29CA515F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = de.baronblk.vevorprint;
+				PRODUCT_NAME = VevorPrint;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		71F5BE5E4675187F8A68875D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VevorPrint/VevorPrint.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = VevorPrint/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.baronblk.vevorprint;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D0945223189AD933373ECE45 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.baronblk.vevorprinttests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VevorPrint.app/Contents/MacOS/VevorPrint";
+			};
+			name = Release;
+		};
+		DE8A7F23632B3250E47966F0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "";
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = de.baronblk.vevorprint;
+				PRODUCT_NAME = VevorPrint;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = YES;
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		E2244BAB3B2B23213B31DB79 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = VevorPrint/VevorPrint.entitlements;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_PREVIEWS = YES;
+				INFOPLIST_FILE = VevorPrint/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.baronblk.vevorprint;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		ED94A3BA4D2D29FC8D6F9A94 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				COMBINE_HIDPI_IMAGES = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				PRODUCT_BUNDLE_IDENTIFIER = de.baronblk.vevorprinttests;
+				SDKROOT = macosx;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VevorPrint.app/Contents/MacOS/VevorPrint";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0EEC77BE01837FC8F3E1554F /* Build configuration list for PBXNativeTarget "VevorPrintTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED94A3BA4D2D29FC8D6F9A94 /* Debug */,
+				D0945223189AD933373ECE45 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		25321C7EEA5C5498A798BC4E /* Build configuration list for PBXProject "VevorPrint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				01253CB5BF06770C29CA515F /* Debug */,
+				DE8A7F23632B3250E47966F0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		33959B7D15AF12A775EBA8C1 /* Build configuration list for PBXNativeTarget "VevorPrint" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				71F5BE5E4675187F8A68875D /* Debug */,
+				E2244BAB3B2B23213B31DB79 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CFE4DA4377C735EC5A681257 /* Project object */;
+}
