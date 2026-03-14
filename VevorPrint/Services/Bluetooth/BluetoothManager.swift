@@ -33,6 +33,9 @@ final class BluetoothManager: NSObject {
     private var reconnectTimer: Timer?
     private var reconnectAttempts = 0
     private var savedPeripheralUUID: String?
+    /// Strong reference held from connect() until didConnect/didFailToConnect fires.
+    /// CoreBluetooth requires the caller to retain the peripheral during connection.
+    private var pendingPeripheral: CBPeripheral?
 
     private let logger = Logger(subsystem: "de.baronblk.vevorprint", category: "BluetoothManager")
 
@@ -58,10 +61,24 @@ final class BluetoothManager: NSObject {
         connectionState = .scanning
         lastError = nil
 
+        // Pre-seed the list from the system cache so the user sees the last-used printer
+        // immediately, before the live scan delivers its first callback.
+        if let uuidString = savedPeripheralUUID,
+           let uuid = UUID(uuidString: uuidString) {
+            let cached = centralManager.retrievePeripherals(withIdentifiers: [uuid])
+            for peripheral in cached {
+                let name = peripheral.name ?? "Drucker"
+                discoveredPeripherals.append(DiscoveredPeripheral(peripheral: peripheral, name: name, rssi: -60))
+                logger.info("Pre-seeded scanner list from cache: \(name)")
+            }
+        }
+
         // Scan for all services — required to discover unverified UUIDs.
-        centralManager.scanForPeripherals(withServices: nil, options: [
-            CBCentralManagerScanOptionAllowDuplicatesKey: false
-        ])
+        // AllowDuplicatesKey: false (default) is correct here: macOS silently
+        // ignores true unless the app has Bluetooth Background Mode, which can
+        // suppress all scan callbacks. After stopScan()/startScan() the duplicate
+        // filter resets, so previously seen peripherals are re-reported normally.
+        centralManager.scanForPeripherals(withServices: nil, options: nil)
         logger.info("BLE scan started")
 
         // Auto-stop after timeout
@@ -88,16 +105,22 @@ final class BluetoothManager: NSObject {
         stopScanning()
         connectionState = .connecting
         savedPeripheralUUID = discovered.peripheral.identifier.uuidString
+        pendingPeripheral = discovered.peripheral   // retain until didConnect/didFailToConnect
         logger.info("Connecting to \(discovered.name)")
         centralManager.connect(discovered.peripheral, options: nil)
     }
 
     /// Disconnect the current printer.
-    func disconnect() {
+    /// - Parameter forget: If true, clears the saved UUID so auto-reconnect and
+    ///   scan pre-seeding are disabled. Pass false (default) for a temporary
+    ///   disconnect where the user may want to reconnect manually.
+    func disconnect(forget: Bool = true) {
         reconnectTimer?.invalidate()
         reconnectTimer = nil
         reconnectAttempts = 0
-        savedPeripheralUUID = nil
+        if forget {
+            savedPeripheralUUID = nil
+        }
 
         if let peripheral = printerConnection?.peripheral {
             centralManager.cancelPeripheralConnection(peripheral)
@@ -105,7 +128,7 @@ final class BluetoothManager: NSObject {
         printerConnection = nil
         connectionState = .disconnected
         connectedPrinterName = nil
-        logger.info("Disconnected from printer")
+        logger.info("Disconnected from printer (forget: \(forget))")
     }
 
     /// Attempt to reconnect to the last known printer UUID (called on app launch).
@@ -123,8 +146,8 @@ final class BluetoothManager: NSObject {
     /// Send raw bytes to the connected printer.
     /// - Parameter data: ESC/POS encoded byte stream.
     /// - Throws: `PrinterError.notReady` if connection is not print-ready.
-    func send(data: Data) throws {
-        try printerConnection?.send(data: data)
+    func send(data: Data) async throws {
+        try await printerConnection?.send(data: data)
     }
 
     // MARK: - Private Helpers
@@ -138,6 +161,7 @@ final class BluetoothManager: NSObject {
         if let peripheral = knownPeripherals.first {
             logger.info("Reconnecting to cached peripheral \(uuidString)")
             connectionState = .connecting
+            pendingPeripheral = peripheral             // retain until didConnect/didFailToConnect
             centralManager.connect(peripheral, options: nil)
         } else {
             logger.info("Peripheral \(uuidString) not in cache — starting scan for reconnect")
@@ -206,11 +230,14 @@ extension BluetoothManager: CBCentralManagerDelegate {
             let rssi = RSSI.intValue
             self.logger.debug("Discovered: \(name) [\(peripheral.identifier.uuidString)] RSSI:\(rssi)")
 
-            // Update existing entry or add new one
+            // Update existing entry or add new one.
             if let idx = self.discoveredPeripherals.firstIndex(where: {
                 $0.peripheral.identifier == peripheral.identifier
             }) {
-                self.discoveredPeripherals[idx].rssi = rssi
+                // Only update RSSI when it changes by ≥3 dBm to avoid unnecessary redraws.
+                if abs(self.discoveredPeripherals[idx].rssi - rssi) >= 3 {
+                    self.discoveredPeripherals[idx].rssi = rssi
+                }
             } else {
                 self.discoveredPeripherals.append(
                     DiscoveredPeripheral(peripheral: peripheral, name: name, rssi: rssi)
@@ -230,6 +257,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
         Task { @MainActor [weak self] in
             guard let self else { return }
             self.reconnectAttempts = 0
+            self.pendingPeripheral = nil          // connection established, release retain
             let name = peripheral.name ?? "Drucker"
             self.connectedPrinterName = name
             self.connectionState = .connecting  // Still discovering characteristics
@@ -247,6 +275,7 @@ extension BluetoothManager: CBCentralManagerDelegate {
                                     error: Error?) {
         Task { @MainActor [weak self] in
             guard let self else { return }
+            self.pendingPeripheral = nil          // connection failed, release retain
             let msg = error?.localizedDescription ?? "Unbekannter Fehler"
             self.logger.error("Failed to connect to \(peripheral.name ?? "?"): \(msg)")
             self.connectionState = .error
