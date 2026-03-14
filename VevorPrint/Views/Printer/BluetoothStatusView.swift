@@ -62,6 +62,11 @@ struct PrinterScannerSheet: View {
     @Environment(PrinterViewModel.self) private var printerVM
     @Environment(\.dismiss) private var dismiss
 
+    // MARK: - State
+
+    @State private var showConfigSheet = false
+    @State private var peripheralToConfig: DiscoveredPeripheral? = nil
+
     // MARK: - Body
 
     var body: some View {
@@ -132,7 +137,8 @@ struct PrinterScannerSheet: View {
                         } else {
                             ForEach(printerVM.discoveredPeripherals) { peripheral in
                                 PeripheralRow(peripheral: peripheral) {
-                                    printerVM.connect(to: peripheral)
+                                    peripheralToConfig = peripheral
+                                    showConfigSheet = true
                                 }
                                 .padding(.horizontal)
                                 Divider().padding(.leading, 52)
@@ -187,7 +193,21 @@ struct PrinterScannerSheet: View {
             }
         }
         .onDisappear {
-            printerVM.stopScanning()
+            // Only stop the scan when the scanner sheet itself is dismissed.
+            // SwiftUI also fires onDisappear when a child sheet (PrinterConfigSheet)
+            // presents on top — guard against that case to avoid killing the scan
+            // before the user has had a chance to see any discovered devices.
+            if !showConfigSheet {
+                printerVM.stopScanning()
+            }
+        }
+        .sheet(isPresented: $showConfigSheet) {
+            if let peripheral = peripheralToConfig {
+                PrinterConfigSheet(peripheral: peripheral) { dpi, paperWidthMM in
+                    printerVM.connect(to: peripheral, dpi: dpi, paperWidthMM: paperWidthMM)
+                    dismiss()
+                }
+            }
         }
     }
 
@@ -235,7 +255,8 @@ struct PrinterScannerSheet: View {
                 Text("Suche nach Druckern…")
                     .foregroundStyle(.secondary)
             } else {
-                Image(systemName: "printer.slash")
+                Image(systemName: "printer")
+                    .symbolVariant(.slash)
                     .foregroundStyle(.tertiary)
                 Text("Keine Drucker gefunden")
                     .foregroundStyle(.secondary)
@@ -286,6 +307,98 @@ private struct PeripheralRow: View {
             .controlSize(.small)
         }
         .padding(.vertical, 4)
+    }
+}
+
+// MARK: - PrinterConfigSheet
+
+/// Sheet shown before connecting to a new printer.
+/// Lets the user configure DPI and paper width so the print pipeline
+/// uses the correct pixel dimensions for this specific device.
+struct PrinterConfigSheet: View {
+
+    // MARK: - Input
+
+    let peripheral: DiscoveredPeripheral
+    /// Called with (dpi, paperWidthMM) when the user confirms.
+    let onConfirm: (Int, Double) -> Void
+
+    // MARK: - State
+
+    @State private var selectedDPI: Int = 300
+    @State private var paperWidthMM: Double = 100.0
+    @Environment(\.dismiss) private var dismiss
+
+    // MARK: - Constants
+
+    private let dpiOptions = [203, 300]
+    private let paperWidthOptions: [Double] = [40, 50, 57, 60, 75, 80, 100, 110]
+
+    // MARK: - Body
+
+    var body: some View {
+        VStack(spacing: 0) {
+            // Header
+            HStack {
+                VStack(alignment: .leading, spacing: 2) {
+                    Text("Drucker einrichten")
+                        .font(.headline)
+                    Text(peripheral.name)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
+                Spacer()
+                Button("Abbrechen") { dismiss() }
+                    .keyboardShortcut(.escape)
+            }
+            .padding()
+
+            Divider()
+
+            // Configuration form
+            Form {
+                Section {
+                    Picker("Auflösung", selection: $selectedDPI) {
+                        ForEach(dpiOptions, id: \.self) { dpi in
+                            Text("\(dpi) DPI").tag(dpi)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+
+                    Picker("Papierbreite", selection: $paperWidthMM) {
+                        ForEach(paperWidthOptions, id: \.self) { w in
+                            Text("\(Int(w)) mm").tag(w)
+                        }
+                    }
+                    .pickerStyle(.segmented)
+                } header: {
+                    Text("Druckerkonfiguration")
+                } footer: {
+                    let widthPx = Int((paperWidthMM * Double(selectedDPI) / 25.4).rounded())
+                    Text("Druckkopfbreite: \(widthPx) px  ·  Diese Einstellungen werden mit dem Drucker gespeichert und können später in den Einstellungen geändert werden.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                }
+            }
+            .formStyle(.grouped)
+
+            Divider()
+
+            // Footer
+            HStack {
+                Spacer()
+                Button {
+                    onConfirm(selectedDPI, paperWidthMM)
+                    dismiss()
+                } label: {
+                    Label("Verbinden", systemImage: "cable.connector")
+                }
+                .buttonStyle(.borderedProminent)
+                .keyboardShortcut(.return, modifiers: .command)
+            }
+            .padding()
+        }
+        .frame(width: 400, height: 340)
     }
 }
 
