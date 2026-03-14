@@ -37,6 +37,7 @@ targets:
         CODE_SIGN_ENTITLEMENTS: VevorPrint/VevorPrint.entitlements
         ENABLE_PREVIEWS: YES
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ENABLE_TESTABILITY: YES
     entitlements:
       path: VevorPrint/VevorPrint.entitlements
 
@@ -46,19 +47,18 @@ targets:
     deploymentTarget: "14.0"
     sources:
       - path: VevorPrintTests
+      - path: VevorPrint/Utilities/UnitConversion.swift
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: de.baronblk.vevorprinttests
-        BUNDLE_LOADER: "$(TEST_HOST)"
-        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/VevorPrint.app/Contents/MacOS/VevorPrint"
-    dependencies:
-      - target: VevorPrint
+        GENERATE_INFOPLIST_FILE: YES
+        SWIFT_TREAT_WARNINGS_AS_ERRORS: NO
 
 schemes:
   VevorPrint:
     build:
       targets:
-        VevorPrint: all
+        VevorPrint: [run, profile, analyze, archive]
         VevorPrintTests: [test]
     run:
       config: Debug

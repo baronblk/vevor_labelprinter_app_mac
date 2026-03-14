@@ -11,6 +11,7 @@
 		02C085B6CC6F36364F468A2E /* BarcodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A15D31E2ED0D41A4D8136EB /* BarcodeGenerator.swift */; };
 		03FDF327240E651D26A32F45 /* ImageImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4D68DB6579AF2B16CA2E12 /* ImageImporter.swift */; };
 		128855FD93C185D7F6BD06DF /* UnitConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */; };
+		17B7933366A9DE21E054DE7B /* UnitConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */; };
 		18C19A5DFC1E84ABF92644E7 /* AppMenuCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E011EB7FB502B954ACB3CD /* AppMenuCommands.swift */; };
 		19117DB8CED029935A9F7AAC /* LabelRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E547AD4BD221CDD1F18BAF6 /* LabelRenderer.swift */; };
 		1E49F43576EBEAAA5BD87367 /* FocusedValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF1C03A9B6C4DD481163846 /* FocusedValueKeys.swift */; };
@@ -47,16 +48,6 @@
 		F63DF48E1C348368F5534F08 /* LabelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76DFAEBAD170B4378AC72F3 /* LabelViewModel.swift */; };
 		FF845C83C964D7BFF81DF25D /* ToastStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319700922B6F72C08D470666 /* ToastStore.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		3BDDE83A12EDE6AB94CD5936 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = CFE4DA4377C735EC5A681257 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 769C5C5F06F88B085A98BD0F;
-			remoteInfo = VevorPrint;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		090AEC5361B0445462A09E62 /* VevorPrintTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VevorPrintTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -320,7 +311,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				7F312668DACEA1BCCA21D45B /* PBXTargetDependency */,
 			);
 			name = VevorPrintTests;
 			packageProductDependencies = (
@@ -446,19 +436,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17B7933366A9DE21E054DE7B /* UnitConversion.swift in Sources */,
 				62EF341240C0A00308425109 /* UnitConversionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		7F312668DACEA1BCCA21D45B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 769C5C5F06F88B085A98BD0F /* VevorPrint */;
-			targetProxy = 3BDDE83A12EDE6AB94CD5936 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		01253CB5BF06770C29CA515F /* Debug */ = {
@@ -536,6 +519,7 @@
 				CODE_SIGN_ENTITLEMENTS = VevorPrint/VevorPrint.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = VevorPrint/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -552,6 +536,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -560,7 +545,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.baronblk.vevorprinttests;
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VevorPrint.app/Contents/MacOS/VevorPrint";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 			};
 			name = Release;
 		};
@@ -632,6 +617,7 @@
 				CODE_SIGN_ENTITLEMENTS = VevorPrint/VevorPrint.entitlements;
 				COMBINE_HIDPI_IMAGES = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = VevorPrint/Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -648,6 +634,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COMBINE_HIDPI_IMAGES = YES;
+				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -656,7 +643,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				PRODUCT_BUNDLE_IDENTIFIER = de.baronblk.vevorprinttests;
 				SDKROOT = macosx;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VevorPrint.app/Contents/MacOS/VevorPrint";
+				SWIFT_TREAT_WARNINGS_AS_ERRORS = NO;
 			};
 			name = Debug;
 		};

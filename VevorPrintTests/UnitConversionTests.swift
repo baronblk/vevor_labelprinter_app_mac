@@ -2,7 +2,6 @@
 /// Unit tests for UnitConversion utilities. Runs without hardware or Bluetooth.
 
 import XCTest
-@testable import VevorPrint
 
 final class UnitConversionTests: XCTestCase {
 
