@@ -109,46 +109,39 @@ struct PrinterScannerSheet: View {
                     Divider()
                 }
 
-                // Discovered devices list
-                VStack(spacing: 0) {
-                    // Section header
-                    Text("Verfügbare Drucker")
-                        .font(.caption)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.secondary)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                        .padding(.horizontal)
-                        .padding(.vertical, 6)
-                        .background(Color(nsColor: .controlBackgroundColor))
+                // Section header — direct child of outer VStack so it gets
+                // its natural height without competing with the ScrollView
+                Text("Verfügbare Drucker")
+                    .font(.caption)
+                    .fontWeight(.medium)
+                    .foregroundStyle(.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal)
+                    .padding(.vertical, 6)
+                    .background(Color(nsColor: .windowBackgroundColor))
 
-                    Divider()
+                Divider()
 
-                    ScrollView {
-                        LazyVStack(spacing: 0) {
-                            if printerVM.discoveredPeripherals.isEmpty {
-                                emptyDiscoveryRow
-                                    .padding(.horizontal)
-                            } else {
-                                ForEach(printerVM.discoveredPeripherals) { peripheral in
-                                    PeripheralRow(peripheral: peripheral) {
-                                        printerVM.connect(to: peripheral)
-                                    }
-                                    .padding(.horizontal)
-                                    Divider().padding(.leading, 52)
+                // ScrollView as direct child: gets all remaining height
+                // inside the fixed 480pt sheet automatically
+                ScrollView(.vertical) {
+                    LazyVStack(spacing: 0) {
+                        if printerVM.discoveredPeripherals.isEmpty {
+                            emptyDiscoveryRow
+                                .padding(.horizontal)
+                        } else {
+                            ForEach(printerVM.discoveredPeripherals) { peripheral in
+                                PeripheralRow(peripheral: peripheral) {
+                                    printerVM.connect(to: peripheral)
                                 }
+                                .padding(.horizontal)
+                                Divider().padding(.leading, 52)
                             }
                         }
                     }
-                    .frame(maxHeight: .infinity)
                 }
                 .frame(maxHeight: .infinity)
-                .background(Color(nsColor: .controlBackgroundColor))
-                .clipShape(RoundedRectangle(cornerRadius: 6))
-                .overlay {
-                    RoundedRectangle(cornerRadius: 6)
-                        .stroke(Color(nsColor: .separatorColor), lineWidth: 0.5)
-                }
-                .padding(.horizontal)
+                .background(Color(nsColor: .windowBackgroundColor))
             }
 
             Divider()
