@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		018A5BCAA63934F944617E95 /* View+ConditionalModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D94D64CFFF2B9ADE2EDCB1 /* View+ConditionalModifier.swift */; };
+		02C085B6CC6F36364F468A2E /* BarcodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A15D31E2ED0D41A4D8136EB /* BarcodeGenerator.swift */; };
+		03FDF327240E651D26A32F45 /* ImageImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E4D68DB6579AF2B16CA2E12 /* ImageImporter.swift */; };
 		128855FD93C185D7F6BD06DF /* UnitConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */; };
 		18C19A5DFC1E84ABF92644E7 /* AppMenuCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E011EB7FB502B954ACB3CD /* AppMenuCommands.swift */; };
 		21998C8074C22BFF07C5FF4C /* LabelDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E70D50B2216BED9A5FD69 /* LabelDocument.swift */; };
@@ -30,9 +32,11 @@
 		BB34B53F5C974379E581C008 /* SelectionHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2930E34A588D6FCFE597BAD5 /* SelectionHandleView.swift */; };
 		BE616352FCEDAC838141A0AD /* PrinterConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0581B352056E210FD04072 /* PrinterConnection.swift */; };
 		C5CC15FAABC9303393FA90A2 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229E3697C7AEC4F66BFF83AE /* RulerView.swift */; };
+		D1C88DF15076D944AAF557B9 /* ElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3769E2C53011D26BA7E833E7 /* ElementView.swift */; };
 		DAB752A0F9C81215964F4F7E /* ToolboxSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A228FA8E61B47DED4B532541 /* ToolboxSidebarView.swift */; };
 		DDC1209B69D7830DF547C967 /* LabelSizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E34D4DD27AA0BA261E8F74A /* LabelSizePickerView.swift */; };
 		DE3A9513A1C578EC99912C8E /* BluetoothStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EED2734882871B87599AAE5 /* BluetoothStatusView.swift */; };
+		F264B9D2563C01500A38046D /* PDFImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114F47880C077E70BFBF5589 /* PDFImporter.swift */; };
 		F63DF48E1C348368F5534F08 /* LabelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76DFAEBAD170B4378AC72F3 /* LabelViewModel.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,16 +52,20 @@
 
 /* Begin PBXFileReference section */
 		090AEC5361B0445462A09E62 /* VevorPrintTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VevorPrintTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		114F47880C077E70BFBF5589 /* PDFImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFImporter.swift; sourceTree = "<group>"; };
 		1DABA8F874E5678EC7805378 /* MainToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolbarView.swift; sourceTree = "<group>"; };
 		1EA453B927ED784E46356B0C /* VevorPrint.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VevorPrint.entitlements; sourceTree = "<group>"; };
 		20D94D64CFFF2B9ADE2EDCB1 /* View+ConditionalModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConditionalModifier.swift"; sourceTree = "<group>"; };
 		229E3697C7AEC4F66BFF83AE /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
 		2930E34A588D6FCFE597BAD5 /* SelectionHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionHandleView.swift; sourceTree = "<group>"; };
+		3769E2C53011D26BA7E833E7 /* ElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementView.swift; sourceTree = "<group>"; };
+		3A15D31E2ED0D41A4D8136EB /* BarcodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeGenerator.swift; sourceTree = "<group>"; };
 		50A8C3FEC5EB326D19C8789F /* LabelCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCanvasView.swift; sourceTree = "<group>"; };
 		510997AA778F440E7816FFE3 /* LabelSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSize.swift; sourceTree = "<group>"; };
 		55FDE5F02F99D93B5667C17D /* PrinterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterViewModel.swift; sourceTree = "<group>"; };
 		5B367102C013669D40CBC1FD /* PropertiesSidebarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertiesSidebarView.swift; sourceTree = "<group>"; };
 		691941A389BEE32453FB63C6 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		6E4D68DB6579AF2B16CA2E12 /* ImageImporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageImporter.swift; sourceTree = "<group>"; };
 		6EED2734882871B87599AAE5 /* BluetoothStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothStatusView.swift; sourceTree = "<group>"; };
 		74E011EB7FB502B954ACB3CD /* AppMenuCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppMenuCommands.swift; sourceTree = "<group>"; };
 		76452BA53BD7884BEC2DBC84 /* UnitConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConversionTests.swift; sourceTree = "<group>"; };
@@ -196,6 +204,7 @@
 		772C76282A4A9617F463B2D7 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				3A15D31E2ED0D41A4D8136EB /* BarcodeGenerator.swift */,
 				7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */,
 				65A56594434B4155CC531CFE /* Extensions */,
 			);
@@ -212,6 +221,8 @@
 		A9DF3694E60C61017FAFC2C8 /* Import */ = {
 			isa = PBXGroup;
 			children = (
+				6E4D68DB6579AF2B16CA2E12 /* ImageImporter.swift */,
+				114F47880C077E70BFBF5589 /* PDFImporter.swift */,
 			);
 			path = Import;
 			sourceTree = "<group>";
@@ -246,6 +257,7 @@
 		E697F763172FB619C4F305AF /* Canvas */ = {
 			isa = PBXGroup;
 			children = (
+				3769E2C53011D26BA7E833E7 /* ElementView.swift */,
 				50A8C3FEC5EB326D19C8789F /* LabelCanvasView.swift */,
 				229E3697C7AEC4F66BFF83AE /* RulerView.swift */,
 				2930E34A588D6FCFE597BAD5 /* SelectionHandleView.swift */,
@@ -361,10 +373,13 @@
 				18C19A5DFC1E84ABF92644E7 /* AppMenuCommands.swift in Sources */,
 				A5F845F5D9033B34DA915D0B /* AppSettings.swift in Sources */,
 				B7A945C5EA239642795B542C /* BLEConstants.swift in Sources */,
+				02C085B6CC6F36364F468A2E /* BarcodeGenerator.swift in Sources */,
 				846E36BA724962A6005F2858 /* BluetoothManager.swift in Sources */,
 				DE3A9513A1C578EC99912C8E /* BluetoothStatusView.swift in Sources */,
 				2700E8B49F6E333BEBB2988B /* Color+Hex.swift in Sources */,
 				B9CEBADD7C4D3F48B8414596 /* ContentView.swift in Sources */,
+				D1C88DF15076D944AAF557B9 /* ElementView.swift in Sources */,
+				03FDF327240E651D26A32F45 /* ImageImporter.swift in Sources */,
 				49FECFEC4299CFB20C85DDD8 /* LabelCanvasView.swift in Sources */,
 				21998C8074C22BFF07C5FF4C /* LabelDocument.swift in Sources */,
 				958A59E2C8C5F5A6AEC2CB4C /* LabelElement.swift in Sources */,
@@ -373,6 +388,7 @@
 				F63DF48E1C348368F5534F08 /* LabelViewModel.swift in Sources */,
 				A9AAD366ECC8C11821ED14D7 /* MainToolbarView.swift in Sources */,
 				807C9D1B893F5F63B22DB442 /* OnboardingView.swift in Sources */,
+				F264B9D2563C01500A38046D /* PDFImporter.swift in Sources */,
 				BE616352FCEDAC838141A0AD /* PrinterConnection.swift in Sources */,
 				B9ECBA2AB117D103E6F35205 /* PrinterDevice.swift in Sources */,
 				3E21222D61CAE3959FE689B8 /* PrinterViewModel.swift in Sources */,
