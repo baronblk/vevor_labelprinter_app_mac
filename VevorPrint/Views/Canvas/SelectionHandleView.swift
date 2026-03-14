@@ -79,28 +79,34 @@ struct SelectionHandleView: View {
         let pt = handlePoint(position)
         let isRotation = position == .rotation
 
-        Circle()
-            .fill(isRotation ? Color.accentColor : Color.white)
-            .overlay(Circle().strokeBorder(Color.accentColor, lineWidth: 1.5))
-            .frame(width: handleSize, height: handleSize)
-            .position(pt)
-            .gesture(
-                DragGesture(minimumDistance: 1, coordinateSpace: .named("canvas"))
-                    .onChanged { value in
-                        if isRotation {
-                            let centre = CGPoint(x: elementFrame.midX, y: elementFrame.midY)
-                            let start  = CGPoint(x: value.startLocation.x, y: value.startLocation.y)
-                            let end    = CGPoint(x: value.location.x,     y: value.location.y)
-                            let angleDelta = angleBetween(centre: centre, from: start, to: end)
-                            onRotateDrag(angleDelta)
-                        } else {
-                            onResizeDrag(position, value.translation)
-                        }
+        ZStack {
+            Circle()
+                .fill(Color.clear)
+                .frame(width: 24, height: 24)  // großes transparentes Hit-Target
+            Circle()
+                .fill(isRotation ? Color.accentColor : Color.white)
+                .overlay(Circle().strokeBorder(Color.accentColor, lineWidth: 1.5))
+                .frame(width: handleSize, height: handleSize)
+                .allowsHitTesting(false)
+        }
+        .position(pt)
+        .gesture(
+            DragGesture(minimumDistance: 1, coordinateSpace: .named("canvas"))
+                .onChanged { value in
+                    if isRotation {
+                        let centre = CGPoint(x: elementFrame.midX, y: elementFrame.midY)
+                        let start  = CGPoint(x: value.startLocation.x, y: value.startLocation.y)
+                        let end    = CGPoint(x: value.location.x,     y: value.location.y)
+                        let angleDelta = angleBetween(centre: centre, from: start, to: end)
+                        onRotateDrag(angleDelta)
+                    } else {
+                        onResizeDrag(position, value.translation)
                     }
-                    .onEnded { _ in
-                        if isRotation { onRotateEnd() } else { onResizeEnd() }
-                    }
-            )
+                }
+                .onEnded { _ in
+                    if isRotation { onRotateEnd() } else { onResizeEnd() }
+                }
+        )
     }
 
     // MARK: - Handle Positions

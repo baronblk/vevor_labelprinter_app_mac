@@ -28,6 +28,7 @@ struct LabelCanvasView: View {
     // MARK: - State
 
     @State private var dragStartFrames: [UUID: CGRect] = [:]
+    @State private var resizeStartFrames: [UUID: CGRect] = [:]
     @State private var editingElementID: UUID? = nil
     @State private var isDropTargeted = false
 
@@ -205,7 +206,11 @@ struct LabelCanvasView: View {
             SelectionHandleView(
                 elementFrame: frameInPt(el),
                 onResizeDrag: { handle, delta in resize(el: el, handle: handle, delta: delta) },
-                onResizeEnd:  { labelVM.commitMove() },
+                onResizeEnd:  { [id = el.id] in
+                    resizeStartFrames.removeValue(forKey: id)
+                    labelVM.isInteracting = false
+                    labelVM.commitMove()
+                },
                 onRotateDrag: { angle in rotate(el: el, by: angle) },
                 onRotateEnd:  { labelVM.commitMove() }
             )
@@ -216,9 +221,17 @@ struct LabelCanvasView: View {
 
     private func resize(el: AnyLabelElement, handle: HandlePosition, delta: CGSize) {
         guard let idx = labelVM.elements.firstIndex(where: { $0.id == el.id }) else { return }
+
+        // Capture start frame on first call of this drag gesture
+        if resizeStartFrames[el.id] == nil {
+            resizeStartFrames[el.id] = labelVM.elements[idx].frame
+            labelVM.isInteracting = true
+        }
+        guard let startFrame = resizeStartFrames[el.id] else { return }
+
         let dx = delta.width / scale
         let dy = delta.height / scale
-        var f = labelVM.elements[idx].frame
+        var f = startFrame  // ALWAYS use start frame, not current frame
         let minMM: CGFloat = 2.0
 
         switch handle {
