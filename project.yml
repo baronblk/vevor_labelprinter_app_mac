@@ -1,0 +1,74 @@
+name: VevorPrint
+options:
+  bundleIdPrefix: de.baronblk
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+  indentWidth: 4
+  tabWidth: 4
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    PRODUCT_NAME: VevorPrint
+    PRODUCT_BUNDLE_IDENTIFIER: de.baronblk.vevorprint
+    DEVELOPMENT_TEAM: ""
+    CODE_SIGN_STYLE: Automatic
+    ENABLE_HARDENED_RUNTIME: YES
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+
+targets:
+  VevorPrint:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: VevorPrint
+        excludes:
+          - "**/.DS_Store"
+    resources:
+      - path: VevorPrint/Resources
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: de.baronblk.vevorprint
+        INFOPLIST_FILE: VevorPrint/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: VevorPrint/VevorPrint.entitlements
+        ENABLE_PREVIEWS: YES
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    entitlements:
+      path: VevorPrint/VevorPrint.entitlements
+
+  VevorPrintTests:
+    type: bundle.unit-test
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: VevorPrintTests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: de.baronblk.vevorprinttests
+        BUNDLE_LOADER: "$(TEST_HOST)"
+        TEST_HOST: "$(BUILT_PRODUCTS_DIR)/VevorPrint.app/Contents/MacOS/VevorPrint"
+    dependencies:
+      - target: VevorPrint
+
+schemes:
+  VevorPrint:
+    build:
+      targets:
+        VevorPrint: all
+        VevorPrintTests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - VevorPrintTests
+    profile:
+      config: Release
+    analyze:
+      config: Debug
+    archive:
+      config: Release
