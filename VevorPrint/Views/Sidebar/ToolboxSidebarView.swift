@@ -54,7 +54,7 @@ struct ToolboxSidebarView: View {
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 8) {
                 ForEach(ToolboxItem.allCases) { item in
                     ToolboxButton(item: item) {
-                        // Element insertion implemented in Phase 4
+                        addElement(for: item)
                     }
                 }
             }
@@ -78,10 +78,18 @@ struct ToolboxSidebarView: View {
     }
 
     private var connectionStateColor: Color {
-        switch printerVM.connectionState {
-        case .connected:              return .green
-        case .scanning, .connecting:  return .yellow
-        case .disconnected, .error:   return .red
+        printerVM.connectionState.color
+    }
+
+    // MARK: - Element Factories
+
+    private func addElement(for item: ToolboxItem) {
+        switch item {
+        case .text:    labelVM.addTextElement()
+        case .image:   labelVM.addImageElement()
+        case .qrCode:  labelVM.addQRCodeElement()
+        case .barcode: labelVM.addBarcodeElement()
+        case .line:    labelVM.addLineElement()
         }
     }
 }
