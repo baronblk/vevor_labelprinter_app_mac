@@ -129,8 +129,12 @@ extension PrinterConnection: CBPeripheralDelegate {
                 logger.info("  ↳ Chunk size: \(self.chunkSize) bytes")
             }
 
-            // Subscribe to notify characteristic if available
-            if props.contains(.notify) || props.contains(.indicate) {
+            // Subscribe to NOTIFY only on the write char's own service.
+            // Standard BLE services (180F Battery, 1805 CurrentTime, etc.) require
+            // pairing/encryption — attempting subscription causes CBError 15/14 warnings.
+            if notifyCharacteristic == nil,
+               writeCharacteristic?.service?.uuid == service.uuid,
+               props.contains(.notify) || props.contains(.indicate) {
                 notifyCharacteristic = char
                 peripheral.setNotifyValue(true, for: char)
                 logger.info("  ↳ Subscribed to NOTIFY characteristic")

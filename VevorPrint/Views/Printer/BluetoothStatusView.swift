@@ -139,7 +139,9 @@ struct PrinterScannerSheet: View {
                             }
                         }
                     }
+                    .frame(maxHeight: .infinity)
                 }
+                .frame(maxHeight: .infinity)
                 .background(Color(nsColor: .controlBackgroundColor))
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .overlay {

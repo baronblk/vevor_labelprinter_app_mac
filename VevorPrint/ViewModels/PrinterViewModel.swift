@@ -205,7 +205,7 @@ enum ConnectionState: String {
         case .disconnected: return "minus.circle"
         case .scanning:     return "antenna.radiowaves.left.and.right"
         case .connecting:   return "arrow.triangle.2.circlepath"
-        case .connected:    return "bluetooth"
+        case .connected:    return "checkmark.circle.fill"
         case .error:        return "exclamationmark.triangle"
         }
     }

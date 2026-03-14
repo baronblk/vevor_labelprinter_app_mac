@@ -205,7 +205,7 @@ struct OnboardingView: View {
         OnboardingStep(
             title: "Bluetooth-Berechtigung",
             description: "VevorPrint benötigt Bluetooth, um mit dem Drucker zu kommunizieren. Klicke im nächsten Dialog auf 'Erlauben'.",
-            symbolName: "bluetooth"
+            symbolName: "dot.radiowaves.left.and.right"
         ),
         OnboardingStep(
             title: "Drucker verbinden",

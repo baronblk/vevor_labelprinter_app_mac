@@ -12,19 +12,22 @@ enum BLEConstants {
 
     // MARK: - Service UUIDs
 
-    /// Primary printer service UUID (UNVERIFIED — common for generic ESC/POS BLE printers).
+    /// Primary printer service UUID.
+    /// Note: Service UUID not captured in initial log — discovery uses nil (all services).
+    /// Retained as placeholder; actual service identified by write characteristic presence.
     static let printerServiceUUID  = CBUUID(string: "0000FF01-0000-1000-8000-00805F9B34FB")
 
-    /// SPP-over-BLE service UUID (fallback, UNVERIFIED).
+    /// SPP-over-BLE service UUID (fallback, not used on this device).
     static let sppServiceUUID      = CBUUID(string: "00001101-0000-1000-8000-00805F9B34FB")
 
     // MARK: - Characteristic UUIDs
 
-    /// Write characteristic for sending ESC/POS data (UNVERIFIED).
-    static let writeCharUUID       = CBUUID(string: "0000FF02-0000-1000-8000-00805F9B34FB")
+    /// Write characteristic UUID — VERIFIED on Vevor Y428BT-42B0 (props: write|notify).
+    /// Confirmed via live GATT discovery: chunk 512 B, maximumWriteValueLength 512.
+    static let writeCharUUID       = CBUUID(string: "8667556C-9A37-4C91-84ED-54EE27D90049")
 
-    /// Notify characteristic for printer status (UNVERIFIED, optional).
-    static let notifyCharUUID      = CBUUID(string: "0000FF03-0000-1000-8000-00805F9B34FB")
+    /// Notify characteristic UUID — same as writeCharUUID on this device (write|notify).
+    static let notifyCharUUID      = CBUUID(string: "8667556C-9A37-4C91-84ED-54EE27D90049")
 
     // MARK: - Transfer
 
