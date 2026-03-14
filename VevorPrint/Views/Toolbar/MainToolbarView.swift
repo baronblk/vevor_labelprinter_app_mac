@@ -1,6 +1,5 @@
 /// MainToolbarView.swift
 /// Top toolbar: print, preview, export, undo/redo, and zoom controls.
-/// Phase 1: layout and keyboard shortcuts wired up; actions implemented in later phases.
 
 import SwiftUI
 
@@ -10,8 +9,13 @@ struct MainToolbarView: ToolbarContent {
 
     // MARK: - Environment
 
-    @Environment(AppSettings.self)  private var appSettings
+    @Environment(AppSettings.self)      private var appSettings
+    @Environment(LabelViewModel.self)   private var labelVM
     @Environment(PrinterViewModel.self) private var printerVM
+
+    // MARK: - State
+
+    @Binding var showPreview: Bool
 
     // MARK: - Toolbar Content
 
@@ -20,19 +24,31 @@ struct MainToolbarView: ToolbarContent {
         // Leading — print controls
         ToolbarItemGroup(placement: .primaryAction) {
             Button {
-                // Print action — Phase 5
+                Task {
+                    await printerVM.printLabel(
+                        elements: labelVM.sortedElements,
+                        labelSize: labelVM.labelSize
+                    )
+                }
             } label: {
-                Label("Drucken", systemImage: "printer")
+                if printerVM.isPrinting {
+                    ProgressView()
+                        .controlSize(.small)
+                } else {
+                    Label("Drucken", systemImage: "printer")
+                }
             }
             .keyboardShortcut("p", modifiers: .command)
-            .disabled(printerVM.connectionState != .connected)
+            .disabled(printerVM.connectionState != .connected || printerVM.isPrinting)
+            .help("Label drucken (⌘P)")
 
             Button {
-                // Preview action — Phase 5
+                showPreview = true
             } label: {
                 Label("Vorschau", systemImage: "eye")
             }
             .keyboardShortcut("p", modifiers: [.command, .shift])
+            .help("Druckvorschau (⇧⌘P)")
         }
 
         // Export
