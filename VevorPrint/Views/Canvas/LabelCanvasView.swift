@@ -1,13 +1,15 @@
 /// LabelCanvasView.swift
-/// Interactive three-layer canvas:
-///   1. SwiftUI Canvas — static element rendering (dot grid + element placeholders)
-///   2. ForEach overlay — transparent hit-test targets with DragGesture per element
-///   3. SelectionHandleView — 8 resize handles + 1 rotation handle for selection
+/// Interactive four-layer canvas:
+///   1. Canvas background — white label surface + dot grid
+///   2. ElementView layer — real rendered elements (text, QR, barcode, image, line)
+///   3. Hit-test layer — transparent DragGesture targets
+///   4. SelectionHandleView — resize + rotation handles
 ///
 /// Coordinate system: element frames are in **mm**; canvas converts to screen
-/// points using `ptPerMM * zoom`.
+/// points via `ptPerMM * zoom`.
 
 import SwiftUI
+import UniformTypeIdentifiers
 
 // MARK: - LabelCanvasView
 
@@ -20,17 +22,19 @@ struct LabelCanvasView: View {
 
     // MARK: - Constants
 
-    /// Screen points per mm at 1x zoom (96 dpi baseline).
+    /// Screen points per mm at 1× zoom (96 dpi baseline).
     private let ptPerMM: CGFloat = 96.0 / 25.4
 
-    // MARK: - Drag State
+    // MARK: - State
 
     @State private var dragStartFrames: [UUID: CGRect] = [:]
+    @State private var editingElementID: UUID? = nil
+    @State private var isDropTargeted = false
 
     // MARK: - Computed
 
-    private var zoom: CGFloat { CGFloat(appSettings.canvasZoom) }
-    private var scale: CGFloat { ptPerMM * zoom }
+    private var zoom: CGFloat    { CGFloat(appSettings.canvasZoom) }
+    private var scale: CGFloat   { ptPerMM * zoom }
     private var labelWidthPt:  CGFloat { labelVM.labelSize.widthMM  * scale }
     private var labelHeightPt: CGFloat { labelVM.labelSize.heightMM * scale }
 
@@ -39,32 +43,45 @@ struct LabelCanvasView: View {
     var body: some View {
         ScrollView([.horizontal, .vertical]) {
             ZStack(alignment: .topLeading) {
-                canvasBackground
-                elementHitLayer
+                gridBackground
+                elementLayer
+                hitLayer
                 if labelVM.hasSelection { selectionLayer }
             }
             .frame(width: labelWidthPt, height: labelHeightPt)
+            .overlay {
+                if isDropTargeted {
+                    RoundedRectangle(cornerRadius: 4)
+                        .strokeBorder(Color.accentColor, lineWidth: 2)
+                }
+            }
             .padding(48)
             .coordinateSpace(name: "canvas")
+            .onTapGesture {
+                editingElementID = nil
+                labelVM.clearSelection()
+            }
         }
         .background(Color(nsColor: .underPageBackgroundColor))
         .overlay(alignment: .topLeading) {
             if appSettings.showRulers { rulerOverlay }
         }
-        .onTapGesture { labelVM.clearSelection() }
         .focusable()
-        .onKeyPress(.delete)    { labelVM.deleteSelection(); return .handled }
-        .onKeyPress(.escape)    { labelVM.clearSelection();  return .handled }
+        .onKeyPress(.delete)  { labelVM.deleteSelection(); return .handled }
+        .onKeyPress(.escape)  { editingElementID = nil; labelVM.clearSelection(); return .handled }
+        .onKeyPress(.return)  { editingElementID = nil; return .handled }
+        // Image drag & drop
+        .dropDestination(for: URL.self) { urls, _ in
+            handleDrop(urls: urls)
+            return true
+        } isTargeted: { isDropTargeted = $0 }
     }
 
-    // MARK: - Canvas Background (static SwiftUI Canvas)
+    // MARK: - Layer 1: Grid Background
 
-    private var canvasBackground: some View {
+    private var gridBackground: some View {
         Canvas { ctx, size in
-            // White label surface
             ctx.fill(Path(CGRect(origin: .zero, size: size)), with: .color(.white))
-
-            // Dot grid
             let gridMM = CGFloat(appSettings.gridSizeMM)
             if gridMM > 0 {
                 let spacing = gridMM * scale
@@ -81,84 +98,38 @@ struct LabelCanvasView: View {
                     x += spacing
                 }
             }
-
-            // Elements (Phase 4 replaces these placeholders with real renderers)
-            for el in labelVM.sortedElements {
-                renderElement(el, in: ctx, size: size)
-            }
         }
         .frame(width: labelWidthPt, height: labelHeightPt)
         .shadow(color: .black.opacity(0.18), radius: 8, x: 0, y: 2)
     }
 
-    // MARK: - Element Rendering (Canvas pass)
+    // MARK: - Layer 2: Element Rendering
 
-    private func renderElement(_ el: AnyLabelElement, in ctx: GraphicsContext, size: CGSize) {
-        let rect = frameInPt(el)
-        let isSelected = labelVM.selectedIDs.contains(el.id)
-
-        ctx.drawLayer { layerCtx in
-            if el.rotation != 0 {
-                let c = CGPoint(x: rect.midX, y: rect.midY)
-                layerCtx.transform = CGAffineTransform(translationX: c.x, y: c.y)
-                    .rotated(by: el.rotation * .pi / 180)
-                    .translatedBy(x: -c.x, y: -c.y)
-            }
-            _ = isSelected   // referenced to silence warning; highlight drawn in SelectionHandleView
-
-            switch el.elementType {
-            case .text:
-                guard let t = el.unwrap(as: TextElement.self) else { break }
-                ctx.stroke(Path(rect), with: .color(.gray.opacity(0.25)), lineWidth: 0.5)
-                let ptSize = max(8, t.fontSize * zoom * 0.8)
-                ctx.draw(
-                    Text(t.text)
-                        .font(.system(size: ptSize))
-                        .foregroundStyle(Color(t.textColor.nsColor)),
-                    in: rect
+    private var elementLayer: some View {
+        ZStack(alignment: .topLeading) {
+            ForEach(labelVM.sortedElements) { el in
+                let rect = frameInPt(el)
+                let isEditing = editingElementID == el.id
+                ElementView(
+                    element: el,
+                    scale: scale,
+                    isEditing: isEditing,
+                    onEditCommit: { newText in
+                        applyTextEdit(id: el.id, newText: newText)
+                    }
                 )
-            case .image:
-                ctx.fill(Path(rect), with: .color(.gray.opacity(0.1)))
-                ctx.stroke(Path(rect), with: .color(.gray.opacity(0.35)), lineWidth: 0.5)
-                let imgSize = min(rect.width, rect.height) * 0.35
-                ctx.draw(
-                    Text(Image(systemName: "photo")).font(.system(size: imgSize)).foregroundStyle(.gray),
-                    in: rect
-                )
-            case .qrCode:
-                ctx.fill(Path(rect), with: .color(.white))
-                ctx.stroke(Path(rect), with: .color(.gray.opacity(0.35)), lineWidth: 0.5)
-                let qrSize = min(rect.width, rect.height) * 0.55
-                ctx.draw(
-                    Text(Image(systemName: "qrcode")).font(.system(size: qrSize)).foregroundStyle(.black),
-                    in: rect
-                )
-            case .barcode:
-                ctx.fill(Path(rect), with: .color(.white))
-                ctx.stroke(Path(rect), with: .color(.gray.opacity(0.35)), lineWidth: 0.5)
-                let bars = 22
-                let bw = rect.width / CGFloat(bars * 2)
-                for i in stride(from: 0, to: bars, by: 1) {
-                    let barRect = CGRect(x: rect.minX + CGFloat(i * 2) * bw, y: rect.minY,
-                                        width: bw, height: rect.height * 0.82)
-                    ctx.fill(Path(barRect), with: .color(.black))
-                }
-            case .line:
-                guard let l = el.unwrap(as: LineElement.self) else { break }
-                let lw = max(1, l.lineWidth * scale)
-                let midY = rect.midY
-                var path = Path()
-                path.move(to: CGPoint(x: rect.minX, y: midY))
-                path.addLine(to: CGPoint(x: rect.maxX, y: midY))
-                ctx.stroke(path, with: .color(Color(l.lineColor.nsColor)), lineWidth: lw)
+                .frame(width: rect.width, height: rect.height)
+                .rotationEffect(.degrees(el.rotation))
+                .position(x: rect.midX, y: rect.midY)
+                .allowsHitTesting(false)   // gestures handled in hit layer
             }
         }
     }
 
-    // MARK: - Hit Layer (transparent gesture targets)
+    // MARK: - Layer 3: Hit Targets
 
-    private var elementHitLayer: some View {
-        ZStack {
+    private var hitLayer: some View {
+        ZStack(alignment: .topLeading) {
             ForEach(labelVM.sortedElements) { el in
                 hitTarget(for: el)
             }
@@ -173,21 +144,26 @@ struct LabelCanvasView: View {
             .frame(width: max(8, rect.width), height: max(8, rect.height))
             .rotationEffect(.degrees(el.rotation))
             .position(x: rect.midX, y: rect.midY)
-            .onTapGesture {
+            .onTapGesture(count: 2) {
+                // Double-click → start inline editing (text only)
+                if el.elementType == .text {
+                    labelVM.select(id: el.id)
+                    editingElementID = el.id
+                }
+            }
+            .onTapGesture(count: 1) {
+                editingElementID = nil
                 let addToSel = NSEvent.modifierFlags.contains(.shift)
                 labelVM.select(id: el.id, addToSelection: addToSel)
             }
             .gesture(
                 DragGesture(minimumDistance: 2, coordinateSpace: .named("canvas"))
                     .onChanged { [id = el.id] value in
-                        if !labelVM.selectedIDs.contains(id) {
-                            labelVM.select(id: id)
-                        }
+                        if !labelVM.selectedIDs.contains(id) { labelVM.select(id: id) }
                         if !labelVM.isInteracting {
                             labelVM.isInteracting = true
                             dragStartFrames = Dictionary(
-                                uniqueKeysWithValues: labelVM.selectedElements
-                                    .map { ($0.id, $0.frame) }
+                                uniqueKeysWithValues: labelVM.selectedElements.map { ($0.id, $0.frame) }
                             )
                         }
                         applyDrag(translation: value.translation)
@@ -201,10 +177,7 @@ struct LabelCanvasView: View {
     }
 
     private func applyDrag(translation: CGSize) {
-        var deltaMM = CGSize(
-            width:  translation.width  / scale,
-            height: translation.height / scale
-        )
+        var deltaMM = CGSize(width: translation.width / scale, height: translation.height / scale)
         let gridMM = CGFloat(appSettings.gridSizeMM)
         if gridMM > 0 {
             deltaMM.width  = (deltaMM.width  / gridMM).rounded() * gridMM
@@ -213,17 +186,15 @@ struct LabelCanvasView: View {
         for id in labelVM.selectedIDs {
             guard let idx = labelVM.elements.firstIndex(where: { $0.id == id }),
                   let start = dragStartFrames[id] else { continue }
-            var newX = start.origin.x + deltaMM.width
-            var newY = start.origin.y + deltaMM.height
             let w = labelVM.elements[idx].frame.width
             let h = labelVM.elements[idx].frame.height
-            newX = max(0, min(newX, labelVM.labelSize.widthMM  - w))
-            newY = max(0, min(newY, labelVM.labelSize.heightMM - h))
+            let newX = max(0, min(start.origin.x + deltaMM.width,  labelVM.labelSize.widthMM  - w))
+            let newY = max(0, min(start.origin.y + deltaMM.height, labelVM.labelSize.heightMM - h))
             labelVM.elements[idx].frame.origin = CGPoint(x: newX, y: newY)
         }
     }
 
-    // MARK: - Selection Layer
+    // MARK: - Layer 4: Selection Handles
 
     @ViewBuilder
     private var selectionLayer: some View {
@@ -242,36 +213,22 @@ struct LabelCanvasView: View {
 
     private func resize(el: AnyLabelElement, handle: HandlePosition, delta: CGSize) {
         guard let idx = labelVM.elements.firstIndex(where: { $0.id == el.id }) else { return }
-        let dx = delta.width  / scale
+        let dx = delta.width / scale
         let dy = delta.height / scale
-        var f  = labelVM.elements[idx].frame
+        var f = labelVM.elements[idx].frame
         let minMM: CGFloat = 2.0
 
         switch handle {
-        case .topLeft:
-            f.origin.x += dx; f.size.width  -= dx
-            f.origin.y += dy; f.size.height -= dy
-        case .top:
-            f.origin.y += dy; f.size.height -= dy
-        case .topRight:
-            f.size.width  += dx
-            f.origin.y    += dy; f.size.height -= dy
-        case .left:
-            f.origin.x += dx; f.size.width -= dx
-        case .right:
-            f.size.width += dx
-        case .bottomLeft:
-            f.origin.x += dx; f.size.width  -= dx
-            f.size.height += dy
-        case .bottom:
-            f.size.height += dy
-        case .bottomRight:
-            f.size.width  += dx
-            f.size.height += dy
-        case .rotation:
-            break
+        case .topLeft:     f.origin.x += dx; f.size.width -= dx; f.origin.y += dy; f.size.height -= dy
+        case .top:         f.origin.y += dy; f.size.height -= dy
+        case .topRight:    f.size.width += dx; f.origin.y += dy; f.size.height -= dy
+        case .left:        f.origin.x += dx; f.size.width -= dx
+        case .right:       f.size.width += dx
+        case .bottomLeft:  f.origin.x += dx; f.size.width -= dx; f.size.height += dy
+        case .bottom:      f.size.height += dy
+        case .bottomRight: f.size.width += dx; f.size.height += dy
+        case .rotation:    break
         }
-
         f.size.width  = max(minMM, f.size.width)
         f.size.height = max(minMM, f.size.height)
         labelVM.elements[idx].frame = f
@@ -283,6 +240,41 @@ struct LabelCanvasView: View {
         guard let idx = labelVM.elements.firstIndex(where: { $0.id == el.id }) else { return }
         labelVM.elements[idx].rotation = (labelVM.elements[idx].rotation + angle)
             .truncatingRemainder(dividingBy: 360)
+    }
+
+    // MARK: - Inline Text Edit
+
+    private func applyTextEdit(id: UUID, newText: String) {
+        guard let idx = labelVM.elements.firstIndex(where: { $0.id == id }),
+              var el = labelVM.elements[idx].unwrap(as: TextElement.self) else { return }
+        el.text = newText
+        labelVM.elements[idx] = AnyLabelElement(el)
+    }
+
+    // MARK: - Image Drop
+
+    private func handleDrop(urls: [URL]) {
+        guard let url = urls.first else { return }
+        let ext = url.pathExtension.lowercased()
+        do {
+            let data: Data
+            if ext == "pdf" {
+                data = try PDFImporter.importFirstPage(from: url)
+            } else {
+                data = try ImageImporter.importImage(from: url)
+            }
+            var el = ImageElement()
+            let size = min(labelVM.labelSize.widthMM, labelVM.labelSize.heightMM) * 0.5
+            el.frame = CGRect(
+                x: (labelVM.labelSize.widthMM - size) / 2,
+                y: (labelVM.labelSize.heightMM - size) / 2,
+                width: size, height: size
+            )
+            el.imageData = data
+            labelVM.addElement(AnyLabelElement(el))
+        } catch {
+            // Errors surfaced in Phase 7 via toast/alert system
+        }
     }
 
     // MARK: - Helpers
