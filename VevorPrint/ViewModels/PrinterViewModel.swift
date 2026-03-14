@@ -202,7 +202,7 @@ enum ConnectionState: String {
 
     var symbolName: String {
         switch self {
-        case .disconnected: return "bluetooth.slash"
+        case .disconnected: return "minus.circle"
         case .scanning:     return "antenna.radiowaves.left.and.right"
         case .connecting:   return "arrow.triangle.2.circlepath"
         case .connected:    return "bluetooth"

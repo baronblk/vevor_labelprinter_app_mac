@@ -110,22 +110,43 @@ struct PrinterScannerSheet: View {
                 }
 
                 // Discovered devices list
-                List {
-                    Section {
-                        if printerVM.discoveredPeripherals.isEmpty {
-                            emptyDiscoveryRow
-                        } else {
-                            ForEach(printerVM.discoveredPeripherals) { peripheral in
-                                PeripheralRow(peripheral: peripheral) {
-                                    printerVM.connect(to: peripheral)
+                VStack(spacing: 0) {
+                    // Section header
+                    Text("Verfügbare Drucker")
+                        .font(.caption)
+                        .fontWeight(.medium)
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .padding(.horizontal)
+                        .padding(.vertical, 6)
+                        .background(Color(nsColor: .controlBackgroundColor))
+
+                    Divider()
+
+                    ScrollView {
+                        LazyVStack(spacing: 0) {
+                            if printerVM.discoveredPeripherals.isEmpty {
+                                emptyDiscoveryRow
+                                    .padding(.horizontal)
+                            } else {
+                                ForEach(printerVM.discoveredPeripherals) { peripheral in
+                                    PeripheralRow(peripheral: peripheral) {
+                                        printerVM.connect(to: peripheral)
+                                    }
+                                    .padding(.horizontal)
+                                    Divider().padding(.leading, 52)
                                 }
                             }
                         }
-                    } header: {
-                        Text("Verfügbare Drucker")
                     }
                 }
-                .listStyle(.inset)
+                .background(Color(nsColor: .controlBackgroundColor))
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+                .overlay {
+                    RoundedRectangle(cornerRadius: 6)
+                        .stroke(Color(nsColor: .separatorColor), lineWidth: 0.5)
+                }
+                .padding(.horizontal)
             }
 
             Divider()
@@ -136,7 +157,7 @@ struct PrinterScannerSheet: View {
                     Button(role: .destructive) {
                         printerVM.disconnect()
                     } label: {
-                        Label("Trennen", systemImage: "bluetooth.slash")
+                        Label("Trennen", systemImage: "minus.circle")
                     }
                     .buttonStyle(.bordered)
                 }
@@ -179,7 +200,7 @@ struct PrinterScannerSheet: View {
 
     private var bluetoothUnavailableView: some View {
         VStack(spacing: 12) {
-            Image(systemName: "bluetooth.slash")
+            Image(systemName: "antenna.radiowaves.left.and.right.slash")
                 .font(.system(size: 36))
                 .foregroundStyle(.secondary)
             Text("Bluetooth nicht verfügbar")

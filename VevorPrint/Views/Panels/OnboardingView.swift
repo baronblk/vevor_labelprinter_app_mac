@@ -155,15 +155,25 @@ struct OnboardingView: View {
                 .disabled(!printerVM.isBluetoothAvailable)
 
                 if !printerVM.discoveredPeripherals.isEmpty {
-                    Picker("Drucker", selection: Binding<String?>(
-                        get: { nil },
-                        set: { _ in }
-                    )) {
+                    VStack(spacing: 6) {
                         ForEach(printerVM.discoveredPeripherals) { p in
-                            Text(p.name).tag(p.peripheral.identifier.uuidString as String?)
+                            Button {
+                                printerVM.connect(to: p)
+                            } label: {
+                                HStack {
+                                    Image(systemName: "printer")
+                                        .foregroundStyle(.secondary)
+                                    Text(p.name)
+                                    Spacer()
+                                    Text(p.signalLabel)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                .frame(maxWidth: .infinity)
+                            }
+                            .buttonStyle(.bordered)
                         }
                     }
-                    .pickerStyle(.menu)
                 }
             }
         }
