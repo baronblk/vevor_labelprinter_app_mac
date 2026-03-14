@@ -13,6 +13,7 @@ struct VevorPrintApp: App {
     @State private var appSettings   = AppSettings()
     @State private var labelVM       = LabelViewModel()
     @State private var printerVM     = PrinterViewModel()
+    @State private var toastStore    = ToastStore()
 
     // MARK: - SwiftData Container
 
@@ -39,6 +40,10 @@ struct VevorPrintApp: App {
                 .environment(appSettings)
                 .environment(labelVM)
                 .environment(printerVM)
+                .environment(toastStore)
+                .focusedSceneValue(\.labelVM,     labelVM)
+                .focusedSceneValue(\.printerVM,   printerVM)
+                .focusedSceneValue(\.appSettings, appSettings)
                 .onAppear {
                     printerVM.onAppear(settings: appSettings)
                 }

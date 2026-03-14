@@ -144,6 +144,9 @@ struct LabelCanvasView: View {
             .frame(width: max(8, rect.width), height: max(8, rect.height))
             .rotationEffect(.degrees(el.rotation))
             .position(x: rect.midX, y: rect.midY)
+            .accessibilityLabel(accessibilityLabel(for: el))
+            .accessibilityHint(el.elementType == .text ? "Doppeltippen zum Bearbeiten" : "Tippen zum Auswaehlen")
+            .accessibilityAddTraits(.isButton)
             .onTapGesture(count: 2) {
                 // Double-click → start inline editing (text only)
                 if el.elementType == .text {
@@ -278,6 +281,19 @@ struct LabelCanvasView: View {
     }
 
     // MARK: - Helpers
+
+    /// Human-readable accessibility label describing an element.
+    private func accessibilityLabel(for el: AnyLabelElement) -> String {
+        switch el.elementType {
+        case .text:
+            let text = el.unwrap(as: TextElement.self)?.text ?? ""
+            return text.isEmpty ? "Leeres Textfeld" : "Text: \(text)"
+        case .image:    return "Bild"
+        case .qrCode:   return "QR-Code"
+        case .barcode:  return "Barcode"
+        case .line:     return "Linie"
+        }
+    }
 
     private func frameInPt(_ el: AnyLabelElement) -> CGRect {
         CGRect(

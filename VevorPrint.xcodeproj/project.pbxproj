@@ -13,6 +13,7 @@
 		128855FD93C185D7F6BD06DF /* UnitConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */; };
 		18C19A5DFC1E84ABF92644E7 /* AppMenuCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74E011EB7FB502B954ACB3CD /* AppMenuCommands.swift */; };
 		19117DB8CED029935A9F7AAC /* LabelRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E547AD4BD221CDD1F18BAF6 /* LabelRenderer.swift */; };
+		1E49F43576EBEAAA5BD87367 /* FocusedValueKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABF1C03A9B6C4DD481163846 /* FocusedValueKeys.swift */; };
 		21998C8074C22BFF07C5FF4C /* LabelDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E8E70D50B2216BED9A5FD69 /* LabelDocument.swift */; };
 		2700E8B49F6E333BEBB2988B /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = A90A114185CD145DB85234FF /* Color+Hex.swift */; };
 		312938CD0ACC260590C9ABA9 /* VevorPrintApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 90FB221285C8E51FB634238C /* VevorPrintApp.swift */; };
@@ -41,8 +42,10 @@
 		DAB752A0F9C81215964F4F7E /* ToolboxSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A228FA8E61B47DED4B532541 /* ToolboxSidebarView.swift */; };
 		DDC1209B69D7830DF547C967 /* LabelSizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E34D4DD27AA0BA261E8F74A /* LabelSizePickerView.swift */; };
 		DE3A9513A1C578EC99912C8E /* BluetoothStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EED2734882871B87599AAE5 /* BluetoothStatusView.swift */; };
+		E723ADBB39E7241D4D8FCA8C /* ToastOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 429DC11AD959B3F9FC3746E9 /* ToastOverlay.swift */; };
 		F264B9D2563C01500A38046D /* PDFImporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 114F47880C077E70BFBF5589 /* PDFImporter.swift */; };
 		F63DF48E1C348368F5534F08 /* LabelViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76DFAEBAD170B4378AC72F3 /* LabelViewModel.swift */; };
+		FF845C83C964D7BFF81DF25D /* ToastStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319700922B6F72C08D470666 /* ToastStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,9 +67,11 @@
 		20D94D64CFFF2B9ADE2EDCB1 /* View+ConditionalModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConditionalModifier.swift"; sourceTree = "<group>"; };
 		229E3697C7AEC4F66BFF83AE /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
 		2930E34A588D6FCFE597BAD5 /* SelectionHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionHandleView.swift; sourceTree = "<group>"; };
+		319700922B6F72C08D470666 /* ToastStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastStore.swift; sourceTree = "<group>"; };
 		33A037724B71B3270D7532D7 /* ExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportService.swift; sourceTree = "<group>"; };
 		3769E2C53011D26BA7E833E7 /* ElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementView.swift; sourceTree = "<group>"; };
 		3A15D31E2ED0D41A4D8136EB /* BarcodeGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BarcodeGenerator.swift; sourceTree = "<group>"; };
+		429DC11AD959B3F9FC3746E9 /* ToastOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastOverlay.swift; sourceTree = "<group>"; };
 		50A8C3FEC5EB326D19C8789F /* LabelCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCanvasView.swift; sourceTree = "<group>"; };
 		510997AA778F440E7816FFE3 /* LabelSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSize.swift; sourceTree = "<group>"; };
 		55FDE5F02F99D93B5667C17D /* PrinterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterViewModel.swift; sourceTree = "<group>"; };
@@ -90,6 +95,7 @@
 		A984A027B240F940683481BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA248564DE43A6DC4FABC62C /* BluetoothManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BluetoothManager.swift; sourceTree = "<group>"; };
 		AB0581B352056E210FD04072 /* PrinterConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterConnection.swift; sourceTree = "<group>"; };
+		ABF1C03A9B6C4DD481163846 /* FocusedValueKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedValueKeys.swift; sourceTree = "<group>"; };
 		ADAC499F73F3AEB73496A95E /* PrinterDevice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterDevice.swift; sourceTree = "<group>"; };
 		B79AB495DD139C77CE7B5CA5 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		C5154FE2949F191EF5480E98 /* VevorPrint.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VevorPrint.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -111,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				74E011EB7FB502B954ACB3CD /* AppMenuCommands.swift */,
+				429DC11AD959B3F9FC3746E9 /* ToastOverlay.swift */,
 				E697F763172FB619C4F305AF /* Canvas */,
 				30127FA5C958310E98B17089 /* Panels */,
 				5B27AEAB9739A3E63F4F1AC2 /* Printer */,
@@ -226,6 +233,8 @@
 			isa = PBXGroup;
 			children = (
 				3A15D31E2ED0D41A4D8136EB /* BarcodeGenerator.swift */,
+				ABF1C03A9B6C4DD481163846 /* FocusedValueKeys.swift */,
+				319700922B6F72C08D470666 /* ToastStore.swift */,
 				7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */,
 				65A56594434B4155CC531CFE /* Extensions */,
 			);
@@ -404,6 +413,7 @@
 				AE067CA5034499152B2E9057 /* ESCPOSEncoder.swift in Sources */,
 				D1C88DF15076D944AAF557B9 /* ElementView.swift in Sources */,
 				98CC5EF119B678002DAB74E7 /* ExportService.swift in Sources */,
+				1E49F43576EBEAAA5BD87367 /* FocusedValueKeys.swift in Sources */,
 				03FDF327240E651D26A32F45 /* ImageImporter.swift in Sources */,
 				49FECFEC4299CFB20C85DDD8 /* LabelCanvasView.swift in Sources */,
 				21998C8074C22BFF07C5FF4C /* LabelDocument.swift in Sources */,
@@ -423,6 +433,8 @@
 				C5CC15FAABC9303393FA90A2 /* RulerView.swift in Sources */,
 				BB34B53F5C974379E581C008 /* SelectionHandleView.swift in Sources */,
 				B956236B9EAE0562EFC3DDF8 /* TemplateBrowserPanel.swift in Sources */,
+				E723ADBB39E7241D4D8FCA8C /* ToastOverlay.swift in Sources */,
+				FF845C83C964D7BFF81DF25D /* ToastStore.swift in Sources */,
 				DAB752A0F9C81215964F4F7E /* ToolboxSidebarView.swift in Sources */,
 				128855FD93C185D7F6BD06DF /* UnitConversion.swift in Sources */,
 				312938CD0ACC260590C9ABA9 /* VevorPrintApp.swift in Sources */,

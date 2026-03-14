@@ -10,9 +10,10 @@ struct PrintPreviewPanel: View {
 
     // MARK: - Environment
 
-    @Environment(AppSettings.self)     private var appSettings
-    @Environment(LabelViewModel.self)  private var labelVM
+    @Environment(AppSettings.self)      private var appSettings
+    @Environment(LabelViewModel.self)   private var labelVM
     @Environment(PrinterViewModel.self) private var printerVM
+    @Environment(ToastStore.self)       private var toastStore
 
     // MARK: - State
 
@@ -110,7 +111,8 @@ struct PrintPreviewPanel: View {
                     dismiss()
                     await printerVM.printLabel(
                         elements: labelVM.sortedElements,
-                        labelSize: labelVM.labelSize
+                        labelSize: labelVM.labelSize,
+                        toastStore: toastStore
                     )
                 }
             } label: {
