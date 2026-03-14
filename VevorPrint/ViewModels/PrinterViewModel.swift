@@ -111,8 +111,16 @@ final class PrinterViewModel {
     /// - Parameters:
     ///   - elements: Sorted label elements to render.
     ///   - labelSize: Label dimensions in mm.
-    func printLabel(elements: [AnyLabelElement], labelSize: LabelSize) async {
-        guard connectionState == .connected else { return }
+    ///   - toastStore: Optional toast store for user-facing error feedback.
+    func printLabel(
+        elements: [AnyLabelElement],
+        labelSize: LabelSize,
+        toastStore: ToastStore? = nil
+    ) async {
+        guard connectionState == .connected else {
+            toastStore?.show("Kein Drucker verbunden.", style: .warning)
+            return
+        }
         guard !isPrinting else { return }
 
         isPrinting = true
@@ -130,7 +138,10 @@ final class PrinterViewModel {
             elements: elements,
             labelSize: labelSize,
             dpi: dpi
-        ) else { return }
+        ) else {
+            toastStore?.show("Label konnte nicht gerendert werden.", style: .error)
+            return
+        }
 
         // Step 2: Encode to ESC/POS
         let printData: Data
@@ -138,6 +149,7 @@ final class PrinterViewModel {
             printData = try ESCPOSEncoder.encode(cgImage)
         } catch {
             bluetooth.lastError = error.localizedDescription
+            toastStore?.show("ESC/POS Fehler: \(error.localizedDescription)", style: .error)
             return
         }
 
@@ -153,6 +165,7 @@ final class PrinterViewModel {
                 try bluetooth.send(data: chunk)
             } catch {
                 bluetooth.lastError = error.localizedDescription
+                toastStore?.show("Sendefehler: \(error.localizedDescription)", style: .error)
                 return
             }
             offset = end
@@ -160,6 +173,8 @@ final class PrinterViewModel {
             // Yield to allow BLE write-without-response to drain
             try? await Task.sleep(nanoseconds: 5_000_000)   // 5 ms
         }
+
+        toastStore?.show("Label erfolgreich gedruckt.", style: .success)
     }
 
     /// Generate a preview CGImage of the label at 150 dpi (fast preview quality).

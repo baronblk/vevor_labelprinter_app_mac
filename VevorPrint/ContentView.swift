@@ -11,6 +11,7 @@ struct ContentView: View {
 
     @Environment(AppSettings.self)      private var appSettings
     @Environment(PrinterViewModel.self) private var printerVM
+    @Environment(ToastStore.self)       private var toastStore
 
     // MARK: - State
 
@@ -38,6 +39,9 @@ struct ContentView: View {
         .navigationTitle("VevorPrint")
         .toolbar {
             MainToolbarView(showPreview: $showPreview, showTemplates: $showTemplates)
+        }
+        .overlay(alignment: .bottom) {
+            ToastOverlay()
         }
         .sheet(isPresented: $showOnboarding) {
             OnboardingView()
