@@ -99,6 +99,78 @@ final class PrinterViewModel {
     func send(data: Data) throws {
         try bluetooth.send(data: data)
     }
+
+    // MARK: - Print Pipeline
+
+    /// Render and print a label.
+    ///
+    /// 1. Renders elements to a CGImage at the configured DPI.
+    /// 2. Encodes the image to an ESC/POS byte stream.
+    /// 3. Sends the byte stream to the printer with chunk-based progress updates.
+    ///
+    /// - Parameters:
+    ///   - elements: Sorted label elements to render.
+    ///   - labelSize: Label dimensions in mm.
+    func printLabel(elements: [AnyLabelElement], labelSize: LabelSize) async {
+        guard connectionState == .connected else { return }
+        guard !isPrinting else { return }
+
+        isPrinting = true
+        printProgress = 0.0
+
+        defer {
+            isPrinting = false
+            printProgress = 0.0
+        }
+
+        let dpi = CGFloat(appSettings?.printDPI ?? 203)
+
+        // Step 1: Render label to bitmap
+        guard let cgImage = LabelRenderer.render(
+            elements: elements,
+            labelSize: labelSize,
+            dpi: dpi
+        ) else { return }
+
+        // Step 2: Encode to ESC/POS
+        let printData: Data
+        do {
+            printData = try ESCPOSEncoder.encode(cgImage)
+        } catch {
+            bluetooth.lastError = error.localizedDescription
+            return
+        }
+
+        // Step 3: Send in chunks with progress updates
+        let chunkSize = appSettings?.bleChunkSize ?? BLEConstants.minChunkSize
+        let totalBytes = printData.count
+        var offset = 0
+
+        while offset < totalBytes {
+            let end = min(offset + chunkSize, totalBytes)
+            let chunk = printData[offset ..< end]
+            do {
+                try bluetooth.send(data: chunk)
+            } catch {
+                bluetooth.lastError = error.localizedDescription
+                return
+            }
+            offset = end
+            printProgress = Double(offset) / Double(totalBytes)
+            // Yield to allow BLE write-without-response to drain
+            try? await Task.sleep(nanoseconds: 5_000_000)   // 5 ms
+        }
+    }
+
+    /// Generate a preview CGImage of the label at 150 dpi (fast preview quality).
+    ///
+    /// - Parameters:
+    ///   - elements: Sorted label elements.
+    ///   - labelSize: Label dimensions in mm.
+    /// - Returns: Optional CGImage preview.
+    func previewImage(elements: [AnyLabelElement], labelSize: LabelSize) -> CGImage? {
+        LabelRenderer.render(elements: elements, labelSize: labelSize, dpi: 150)
+    }
 }
 
 // MARK: - ConnectionState
