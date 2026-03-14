@@ -35,6 +35,9 @@ final class PrinterConnection: NSObject {
 
     weak var delegate: PrinterConnectionDelegate?
 
+    /// Continuation waiting for peripheralIsReady(toSendWriteWithoutResponse:).
+    private var sendReadyContinuation: CheckedContinuation<Void, Never>?
+
     private let logger = Logger(subsystem: "de.baronblk.vevorprint", category: "PrinterConnection")
 
     // MARK: - Init
@@ -58,21 +61,45 @@ final class PrinterConnection: NSObject {
     // MARK: - Send
 
     /// Sends raw bytes to the printer, split into negotiated chunk sizes.
+    ///
+    /// Flow control strategy:
+    ///   - `.withoutResponse`: waits for `peripheralIsReady` before each chunk when the
+    ///     CoreBluetooth transmit buffer is full (prevents EXC_BREAKPOINT assertion).
+    ///   - `.withResponse`: the BLE stack serialises writes automatically. A short inter-
+    ///     chunk delay is inserted so the printer's internal row buffer never runs dry.
+    ///     Without this delay, the print motor stalls between packets and produces an
+    ///     audible clicking noise (motor start/stop per BLE round-trip ~30–100 ms).
+    ///
     /// - Parameter data: The ESC/POS byte stream to send.
     /// - Throws: `PrinterError.notReady` when write characteristic is unavailable.
-    func send(data: Data) throws {
+    func send(data: Data) async throws {
         guard isReady, let char = writeCharacteristic else {
             throw PrinterError.notReady
         }
 
-        // Prefer writeWithoutResponse — avoids ATT-MTU assertion crash and is
-        // faster for bulk ESC/POS transfers (no per-packet ACK round-trip).
-        let writeType: CBCharacteristicWriteType = char.properties.contains(.writeWithoutResponse)
-            ? .withoutResponse
-            : .withResponse
+        let useNoResponse = char.properties.contains(.writeWithoutResponse)
+        let writeType: CBCharacteristicWriteType = useNoResponse ? .withoutResponse : .withResponse
+        let delayNs = UInt64(BLEConstants.writeDelay * 1_000_000_000)
 
         var offset = 0
         while offset < data.count {
+            if useNoResponse {
+                // Wait for transmit buffer space to prevent the CoreBluetooth
+                // EXC_BREAKPOINT assertion on overflow.
+                if !peripheral.canSendWriteWithoutResponse {
+                    await withCheckedContinuation { (continuation: CheckedContinuation<Void, Never>) in
+                        self.sendReadyContinuation = continuation
+                    }
+                }
+            } else {
+                // For withResponse writes: insert a small delay between chunks.
+                // This keeps the printer's internal row buffer fed and prevents
+                // the motor starvation that causes dot-matrix-like clicking noise.
+                if offset > 0 {
+                    try await Task.sleep(nanoseconds: delayNs)
+                }
+            }
+
             let end   = min(offset + chunkSize, data.count)
             let chunk = data[offset..<end]
             peripheral.writeValue(chunk, for: char, type: writeType)
@@ -190,6 +217,13 @@ extension PrinterConnection: CBPeripheralDelegate {
         if let error {
             logger.warning("Notify subscription error: \(error.localizedDescription)")
         }
+    }
+
+    func peripheralIsReady(toSendWriteWithoutResponse peripheral: CBPeripheral) {
+        // Resume any send() call waiting for buffer space.
+        let cont = sendReadyContinuation
+        sendReadyContinuation = nil
+        cont?.resume()
     }
 }
 
