@@ -67,6 +67,11 @@ struct MainToolbarView: ToolbarContent {
             }
             .help("Zoom")
         }
+
+        // Bluetooth status (trailing)
+        ToolbarItem(placement: .status) {
+            BluetoothStatusView()
+        }
     }
 }
 
