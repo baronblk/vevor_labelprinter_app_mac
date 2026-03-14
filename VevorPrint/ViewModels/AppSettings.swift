@@ -61,11 +61,18 @@ final class AppSettings {
 
     init() {
         let defaults = UserDefaults.standard
+
+        // Migrate legacy bleChunkSize: old default was 512 which caused ATT-MTU
+        // assertion crashes. Reset to 128 if the stored value is still 512.
+        if (defaults.object(forKey: Keys.bleChunkSize) as? Int) == 512 {
+            defaults.removeObject(forKey: Keys.bleChunkSize)
+        }
+
         gridSizeMM          = defaults.object(forKey: Keys.gridSizeMM)          as? Double ?? 2.0
         showRulers          = defaults.object(forKey: Keys.showRulers)          as? Bool   ?? true
         canvasZoom          = defaults.object(forKey: Keys.canvasZoom)          as? Double ?? 1.0
         printDPI            = defaults.object(forKey: Keys.printDPI)            as? Int    ?? 203
-        bleChunkSize        = defaults.object(forKey: Keys.bleChunkSize)        as? Int    ?? 512
+        bleChunkSize        = defaults.object(forKey: Keys.bleChunkSize)        as? Int    ?? 128
         onboardingCompleted = defaults.object(forKey: Keys.onboardingCompleted) as? Bool   ?? false
         pairedPrinterUUID   = defaults.string(forKey: Keys.pairedPrinterUUID)
     }
@@ -78,7 +85,7 @@ final class AppSettings {
         showRulers          = true
         canvasZoom          = 1.0
         printDPI            = 203
-        bleChunkSize        = 512
+        bleChunkSize        = 128
         onboardingCompleted = false
         pairedPrinterUUID   = nil
     }

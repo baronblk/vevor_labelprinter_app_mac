@@ -65,9 +65,11 @@ final class PrinterConnection: NSObject {
             throw PrinterError.notReady
         }
 
-        let writeType: CBCharacteristicWriteType = char.properties.contains(.write)
-            ? .withResponse
-            : .withoutResponse
+        // Prefer writeWithoutResponse — avoids ATT-MTU assertion crash and is
+        // faster for bulk ESC/POS transfers (no per-packet ACK round-trip).
+        let writeType: CBCharacteristicWriteType = char.properties.contains(.writeWithoutResponse)
+            ? .withoutResponse
+            : .withResponse
 
         var offset = 0
         while offset < data.count {
@@ -116,17 +118,33 @@ extension PrinterConnection: CBPeripheralDelegate {
             let props = char.properties
             logger.info("  Char \(char.uuid.uuidString) — props: \(props.debugDescription)")
 
-            // Select write characteristic — prefer .write, accept .writeWithoutResponse
-            if writeCharacteristic == nil,
-               props.contains(.write) || props.contains(.writeWithoutResponse) {
-                writeCharacteristic = char
-                logger.info("  ↳ Selected as WRITE characteristic")
+            // Select write characteristic.
+            // Priority: writeWithoutResponse > write-with-response.
+            // Reason: Many BLE printers (ISSC/Nordic UART stack) use the
+            // writeWithoutResponse char for bulk data (ESC/POS streaming).
+            // Using .withResponse with large payloads can trigger CoreBluetooth
+            // assertion failures when the actual ATT-MTU is smaller than the
+            // value reported by maximumWriteValueLength(for: .withResponse).
+            let isWriteNoResp = props.contains(.writeWithoutResponse)
+            let isWrite       = props.contains(.write)
 
-                // Negotiate chunk size
-                let maxWrite = peripheral.maximumWriteValueLength(for:
-                    props.contains(.write) ? .withResponse : .withoutResponse)
-                chunkSize = min(maxWrite, BLEConstants.maxChunkSize)
-                logger.info("  ↳ Chunk size: \(self.chunkSize) bytes")
+            if isWriteNoResp || isWrite {
+                // Upgrade to this char if:
+                //   a) no write char selected yet, OR
+                //   b) current selection only has .write but this one has .writeWithoutResponse
+                let currentLacksNoResp = writeCharacteristic
+                    .map { !$0.properties.contains(.writeWithoutResponse) } ?? true
+                let shouldSelect = writeCharacteristic == nil ||
+                                   (isWriteNoResp && currentLacksNoResp)
+
+                if shouldSelect {
+                    writeCharacteristic = char
+                    let wType: CBCharacteristicWriteType = isWriteNoResp
+                        ? .withoutResponse : .withResponse
+                    let maxWrite = peripheral.maximumWriteValueLength(for: wType)
+                    chunkSize = min(maxWrite, BLEConstants.maxChunkSize)
+                    logger.info("  ↳ Selected as WRITE characteristic (\(isWriteNoResp ? "noResponse" : "withResponse"), chunk: \(self.chunkSize)B)")
+                }
             }
 
             // Subscribe to NOTIFY only on the write char's own service.
