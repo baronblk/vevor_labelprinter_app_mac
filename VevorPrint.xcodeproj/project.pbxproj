@@ -19,6 +19,7 @@
 		62EF341240C0A00308425109 /* UnitConversionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76452BA53BD7884BEC2DBC84 /* UnitConversionTests.swift */; };
 		807C9D1B893F5F63B22DB442 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B79AB495DD139C77CE7B5CA5 /* OnboardingView.swift */; };
 		846E36BA724962A6005F2858 /* BluetoothManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA248564DE43A6DC4FABC62C /* BluetoothManager.swift */; };
+		958A59E2C8C5F5A6AEC2CB4C /* LabelElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86828D6CE30D50DF8042D1BC /* LabelElement.swift */; };
 		A3F5FF1A37B2FB8C939FB5DB /* PropertiesSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B367102C013669D40CBC1FD /* PropertiesSidebarView.swift */; };
 		A5F845F5D9033B34DA915D0B /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 691941A389BEE32453FB63C6 /* AppSettings.swift */; };
 		A9AAD366ECC8C11821ED14D7 /* MainToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DABA8F874E5678EC7805378 /* MainToolbarView.swift */; };
@@ -26,7 +27,9 @@
 		B7A945C5EA239642795B542C /* BLEConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 95E2FF114CFE04E991F94F13 /* BLEConstants.swift */; };
 		B9CEBADD7C4D3F48B8414596 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9053D0A579868606AF387E1F /* ContentView.swift */; };
 		B9ECBA2AB117D103E6F35205 /* PrinterDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADAC499F73F3AEB73496A95E /* PrinterDevice.swift */; };
+		BB34B53F5C974379E581C008 /* SelectionHandleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2930E34A588D6FCFE597BAD5 /* SelectionHandleView.swift */; };
 		BE616352FCEDAC838141A0AD /* PrinterConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB0581B352056E210FD04072 /* PrinterConnection.swift */; };
+		C5CC15FAABC9303393FA90A2 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 229E3697C7AEC4F66BFF83AE /* RulerView.swift */; };
 		DAB752A0F9C81215964F4F7E /* ToolboxSidebarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A228FA8E61B47DED4B532541 /* ToolboxSidebarView.swift */; };
 		DDC1209B69D7830DF547C967 /* LabelSizePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E34D4DD27AA0BA261E8F74A /* LabelSizePickerView.swift */; };
 		DE3A9513A1C578EC99912C8E /* BluetoothStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EED2734882871B87599AAE5 /* BluetoothStatusView.swift */; };
@@ -48,6 +51,8 @@
 		1DABA8F874E5678EC7805378 /* MainToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainToolbarView.swift; sourceTree = "<group>"; };
 		1EA453B927ED784E46356B0C /* VevorPrint.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = VevorPrint.entitlements; sourceTree = "<group>"; };
 		20D94D64CFFF2B9ADE2EDCB1 /* View+ConditionalModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ConditionalModifier.swift"; sourceTree = "<group>"; };
+		229E3697C7AEC4F66BFF83AE /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
+		2930E34A588D6FCFE597BAD5 /* SelectionHandleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectionHandleView.swift; sourceTree = "<group>"; };
 		50A8C3FEC5EB326D19C8789F /* LabelCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelCanvasView.swift; sourceTree = "<group>"; };
 		510997AA778F440E7816FFE3 /* LabelSize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSize.swift; sourceTree = "<group>"; };
 		55FDE5F02F99D93B5667C17D /* PrinterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrinterViewModel.swift; sourceTree = "<group>"; };
@@ -58,6 +63,7 @@
 		76452BA53BD7884BEC2DBC84 /* UnitConversionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConversionTests.swift; sourceTree = "<group>"; };
 		7654E70BC1D4992C97EA30B5 /* UnitConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConversion.swift; sourceTree = "<group>"; };
 		7E34D4DD27AA0BA261E8F74A /* LabelSizePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelSizePickerView.swift; sourceTree = "<group>"; };
+		86828D6CE30D50DF8042D1BC /* LabelElement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LabelElement.swift; sourceTree = "<group>"; };
 		9053D0A579868606AF387E1F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		90FB221285C8E51FB634238C /* VevorPrintApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VevorPrintApp.swift; sourceTree = "<group>"; };
 		95E2FF114CFE04E991F94F13 /* BLEConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEConstants.swift; sourceTree = "<group>"; };
@@ -241,6 +247,8 @@
 			isa = PBXGroup;
 			children = (
 				50A8C3FEC5EB326D19C8789F /* LabelCanvasView.swift */,
+				229E3697C7AEC4F66BFF83AE /* RulerView.swift */,
+				2930E34A588D6FCFE597BAD5 /* SelectionHandleView.swift */,
 			);
 			path = Canvas;
 			sourceTree = "<group>";
@@ -249,6 +257,7 @@
 			isa = PBXGroup;
 			children = (
 				9E8E70D50B2216BED9A5FD69 /* LabelDocument.swift */,
+				86828D6CE30D50DF8042D1BC /* LabelElement.swift */,
 				510997AA778F440E7816FFE3 /* LabelSize.swift */,
 				ADAC499F73F3AEB73496A95E /* PrinterDevice.swift */,
 			);
@@ -358,6 +367,7 @@
 				B9CEBADD7C4D3F48B8414596 /* ContentView.swift in Sources */,
 				49FECFEC4299CFB20C85DDD8 /* LabelCanvasView.swift in Sources */,
 				21998C8074C22BFF07C5FF4C /* LabelDocument.swift in Sources */,
+				958A59E2C8C5F5A6AEC2CB4C /* LabelElement.swift in Sources */,
 				AD8690F3384BE1C90C85CC3E /* LabelSize.swift in Sources */,
 				DDC1209B69D7830DF547C967 /* LabelSizePickerView.swift in Sources */,
 				F63DF48E1C348368F5534F08 /* LabelViewModel.swift in Sources */,
@@ -367,6 +377,8 @@
 				B9ECBA2AB117D103E6F35205 /* PrinterDevice.swift in Sources */,
 				3E21222D61CAE3959FE689B8 /* PrinterViewModel.swift in Sources */,
 				A3F5FF1A37B2FB8C939FB5DB /* PropertiesSidebarView.swift in Sources */,
+				C5CC15FAABC9303393FA90A2 /* RulerView.swift in Sources */,
+				BB34B53F5C974379E581C008 /* SelectionHandleView.swift in Sources */,
 				DAB752A0F9C81215964F4F7E /* ToolboxSidebarView.swift in Sources */,
 				128855FD93C185D7F6BD06DF /* UnitConversion.swift in Sources */,
 				312938CD0ACC260590C9ABA9 /* VevorPrintApp.swift in Sources */,
